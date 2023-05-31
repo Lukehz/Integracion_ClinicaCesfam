@@ -4,4 +4,44 @@
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="jumbotron">
+    <h2>Retorno</h2>
+    <p>Valor: @ViewBag.Amount<font id="amount"></font></p>
+    <p>Codigo de autorizacion: @ViewBag.AuthorizationCode<font id="authorizationCode"></font></p>
+    <p>Codigo de respuesta: @ViewBag.ResponseCode<font id="responseCode"></font></p>
+
+    <p>commit</p>
+    @ViewBag.Vci;
+    @ViewBag.Amount;
+    @ViewBag.Status;
+    @ViewBag.BuyOrder;
+    @ViewBag.SessionId;
+    @ViewBag.CardDetail;
+    @ViewBag.AccountingDate;
+    @ViewBag.TransactionDate;
+    @ViewBag.AuthorizationCode;
+    @ViewBag.PaymentTypeCode;<br />
+    <p>@ViewBag.ResponseCode;</p><br />
+    @ViewBag.InstallmentsAmount     <!--Monto de las cuotas; -->
+    @ViewBag.InstallmentsNumber;
+    @ViewBag.Balance;<!--Monto restante para un detalle anulado -->
+
+    <p>/////////////////////////////////////////////</p>
+    <p>Status</p>
+    @ViewBag.ci;
+    @ViewBag.mount;
+    @ViewBag.tatus;
+    @ViewBag.uyOrder;
+    @ViewBag.essionId;
+    @ViewBag.ardDetail;
+    @ViewBag.ccountingDate;
+    @ViewBag.ransactionDate;
+    @ViewBag.uthorizationCode;
+    @ViewBag.aymentTypeCode;<br />
+    <p>@ViewBag.esponseCode;</p><br />
+    @ViewBag.nstallmentsAmount     <!--Monto de las cuotas; -->
+    @ViewBag.nstallmentsNumber;
+    @ViewBag.alance;<!--Monto restante para un detalle anulado -->
+
+</div>
+

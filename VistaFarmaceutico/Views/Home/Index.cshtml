@@ -8,6 +8,7 @@
     <p>Orden de compra: @ViewBag.buyOrder</p>
     <form method="post" action="@ViewBag.FormAction">
         <input type="hidden" name="token_ws" value="@ViewBag.TokenWs" />
-        <input type="submit" value="Ir a pagar" />
+        <button type="submit" class="btn btn-primary">Pagar</button>
     </form>
+    <!--<p>@ViewBag.TokenWs</p>-->
 </div>
