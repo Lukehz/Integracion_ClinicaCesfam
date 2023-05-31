@@ -1,0 +1,42 @@
+﻿@model ClinicaCesfam.Models.MEDICO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MEDICO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_med)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_med)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cargo_med)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cargo_med)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PERSONA.id_persona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PERSONA.id_persona)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_med }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h2>INICIO TRANSACCION</h2>
+    <p>Valor: @ViewBag.Amount</p>
+    <p>Orden de compra: @ViewBag.buyOrder</p>
+    <form method="post" action="@ViewBag.FormAction">
+        <input type="hidden" name="token_ws" value="@ViewBag.TokenWs" />
+        <input type="submit" value="Ir a pagar" />
+    </form>
+</div>

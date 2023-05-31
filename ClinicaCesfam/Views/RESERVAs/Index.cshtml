@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ClinicaCesfam.Models.RESERVA>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Reserva</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEDICAMENTO.nombre_medica)<span>mento</span>
+        </th>
+        <th>
+            Fabricante
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PACIENTE.id_paciente)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEDICAMENTO.nombre_medica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEDICAMENTO.fabricante_medica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PACIENTE.id_paciente)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_reserva }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_reserva }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_reserva })
+        </td>
+    </tr>
+}
+
+</table>

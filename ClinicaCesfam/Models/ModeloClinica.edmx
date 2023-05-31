@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="clinicaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HOJA_ATENCION">
+          <Key>
+            <PropertyRef Name="id_hoja" />
+          </Key>
+          <Property Name="id_hoja" Type="int" Nullable="false" />
+          <Property Name="ingreso" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="observacion" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="receta" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="id_paciente" Type="int" Nullable="false" />
+          <Property Name="id_med" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEDICAMENTO">
+          <Key>
+            <PropertyRef Name="id_medica" />
+          </Key>
+          <Property Name="id_medica" Type="int" Nullable="false" />
+          <Property Name="nombre_medica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fabricante_medica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="gramaje_medica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="exp_medica" Type="date" Nullable="false" />
+          <Property Name="stock_medica" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="id_med" />
+          </Key>
+          <Property Name="id_med" Type="int" Nullable="false" />
+          <Property Name="cargo_med" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_persona" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="id_paciente" />
+          </Key>
+          <Property Name="id_paciente" Type="int" Nullable="false" />
+          <Property Name="enfermedad_cronica" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="nombre_enfermedad" Type="varchar" MaxLength="50" />
+          <Property Name="id_persona" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERSONA">
+          <Key>
+            <PropertyRef Name="id_persona" />
+          </Key>
+          <Property Name="id_persona" Type="int" Nullable="false" />
+          <Property Name="numrun" Type="numeric" Precision="8" Scale="0" Nullable="false" />
+          <Property Name="dv_run" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="pnombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="snombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="appaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apmaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefono" Type="numeric" Precision="9" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RECETA_MEDICAMENTO">
+          <Key>
+            <PropertyRef Name="id_receta_medica" />
+          </Key>
+          <Property Name="id_receta_medica" Type="int" Nullable="false" />
+          <Property Name="id_hoja" Type="int" Nullable="false" />
+          <Property Name="id_medica" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RESERVA">
+          <Key>
+            <PropertyRef Name="id_reserva" />
+          </Key>
+          <Property Name="id_reserva" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" Nullable="false" />
+          <Property Name="id_paciente" Type="int" Nullable="false" />
+          <Property Name="id_medica" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'clinica.dbo.Datos_medico' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Datos_medico">
+          <Key>
+            <PropertyRef Name="id_persona" />
+            <PropertyRef Name="id_medico" />
+            <PropertyRef Name="Nombre Completo" />
+            <PropertyRef Name="Rut" />
+            <PropertyRef Name="Cargo Medico" />
+            <PropertyRef Name="Telefono" />
+            <PropertyRef Name="Correo" />
+            <PropertyRef Name="Direccion" />
+          </Key>
+          <Property Name="id_persona" Type="int" Nullable="false" />
+          <Property Name="id_medico" Type="int" Nullable="false" />
+          <Property Name="Nombre Completo" Type="varchar" MaxLength="203" Nullable="false" />
+          <Property Name="Rut" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Cargo Medico" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="numeric" Precision="9" Scale="0" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'clinica.dbo.Datos_paciente' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Datos_paciente">
+          <Key>
+            <PropertyRef Name="id_persona" />
+            <PropertyRef Name="id_paciente" />
+            <PropertyRef Name="Nombre Completo" />
+            <PropertyRef Name="Rut" />
+            <PropertyRef Name="Enfermedad Cronica" />
+            <PropertyRef Name="Telefono" />
+            <PropertyRef Name="Correo" />
+            <PropertyRef Name="Direccion" />
+          </Key>
+          <Property Name="id_persona" Type="int" Nullable="false" />
+          <Property Name="id_paciente" Type="int" Nullable="false" />
+          <Property Name="Nombre Completo" Type="varchar" MaxLength="203" Nullable="false" />
+          <Property Name="Rut" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Enfermedad Cronica" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Enfermedad" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="numeric" Precision="9" Scale="0" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'clinica.dbo.Stock_medicamentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Stock_medicamentos">
+          <Key>
+            <PropertyRef Name="id_medica" />
+            <PropertyRef Name="Nombre Medicamento" />
+            <PropertyRef Name="Stock medicamento" />
+          </Key>
+          <Property Name="id_medica" Type="int" Nullable="false" />
+          <Property Name="Nombre Medicamento" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Stock medicamento" Type="int" Nullable="false" />
+          <Property Name="Reservado" Type="int" />
+          <Property Name="Restante" Type="int" />
+        </EntityType>
+        <Association Name="hoja_atencion_medico_fk">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="HOJA_ATENCION" Type="Self.HOJA_ATENCION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="id_med" />
+            </Principal>
+            <Dependent Role="HOJA_ATENCION">
+              <PropertyRef Name="id_med" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hoja_atencion_paciente_fk">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="HOJA_ATENCION" Type="Self.HOJA_ATENCION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="HOJA_ATENCION">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_persona_fk">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="id_persona" />
+            </Principal>
+            <Dependent Role="MEDICO">
+              <PropertyRef Name="id_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paciente_persona_fk">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="id_persona" />
+            </Principal>
+            <Dependent Role="PACIENTE">
+              <PropertyRef Name="id_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_8_hoja_atencion_fk">
+          <End Role="HOJA_ATENCION" Type="Self.HOJA_ATENCION" Multiplicity="1" />
+          <End Role="RECETA_MEDICAMENTO" Type="Self.RECETA_MEDICAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOJA_ATENCION">
+              <PropertyRef Name="id_hoja" />
+            </Principal>
+            <Dependent Role="RECETA_MEDICAMENTO">
+              <PropertyRef Name="id_hoja" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_8_medicamento_fk">
+          <End Role="MEDICAMENTO" Type="Self.MEDICAMENTO" Multiplicity="1" />
+          <End Role="RECETA_MEDICAMENTO" Type="Self.RECETA_MEDICAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICAMENTO">
+              <PropertyRef Name="id_medica" />
+            </Principal>
+            <Dependent Role="RECETA_MEDICAMENTO">
+              <PropertyRef Name="id_medica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reserva_medicamento_fk">
+          <End Role="MEDICAMENTO" Type="Self.MEDICAMENTO" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICAMENTO">
+              <PropertyRef Name="id_medica" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="id_medica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reserva_paciente_fk">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="clinicaModelStoreContainer">
+          <EntitySet Name="HOJA_ATENCION" EntityType="Self.HOJA_ATENCION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICAMENTO" EntityType="Self.MEDICAMENTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RECETA_MEDICAMENTO" EntityType="Self.RECETA_MEDICAMENTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESERVA" EntityType="Self.RESERVA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_medico" EntityType="Self.Datos_medico" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Datos_medico].[id_persona] AS [id_persona], 
+    [Datos_medico].[id_medico] AS [id_medico], 
+    [Datos_medico].[Nombre Completo] AS [Nombre Completo], 
+    [Datos_medico].[Rut] AS [Rut], 
+    [Datos_medico].[Cargo Medico] AS [Cargo Medico], 
+    [Datos_medico].[Telefono] AS [Telefono], 
+    [Datos_medico].[Correo] AS [Correo], 
+    [Datos_medico].[Direccion] AS [Direccion]
+    FROM [dbo].[Datos_medico] AS [Datos_medico]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Datos_paciente" EntityType="Self.Datos_paciente" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Datos_paciente].[id_persona] AS [id_persona], 
+    [Datos_paciente].[id_paciente] AS [id_paciente], 
+    [Datos_paciente].[Nombre Completo] AS [Nombre Completo], 
+    [Datos_paciente].[Rut] AS [Rut], 
+    [Datos_paciente].[Enfermedad Cronica] AS [Enfermedad Cronica], 
+    [Datos_paciente].[Enfermedad] AS [Enfermedad], 
+    [Datos_paciente].[Telefono] AS [Telefono], 
+    [Datos_paciente].[Correo] AS [Correo], 
+    [Datos_paciente].[Direccion] AS [Direccion]
+    FROM [dbo].[Datos_paciente] AS [Datos_paciente]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Stock_medicamentos" EntityType="Self.Stock_medicamentos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Stock_medicamentos].[id_medica] AS [id_medica], 
+    [Stock_medicamentos].[Nombre Medicamento] AS [Nombre Medicamento], 
+    [Stock_medicamentos].[Stock medicamento] AS [Stock medicamento], 
+    [Stock_medicamentos].[Reservado] AS [Reservado], 
+    [Stock_medicamentos].[Restante] AS [Restante]
+    FROM [dbo].[Stock_medicamentos] AS [Stock_medicamentos]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="hoja_atencion_medico_fk" Association="Self.hoja_atencion_medico_fk">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="HOJA_ATENCION" EntitySet="HOJA_ATENCION" />
+          </AssociationSet>
+          <AssociationSet Name="hoja_atencion_paciente_fk" Association="Self.hoja_atencion_paciente_fk">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="HOJA_ATENCION" EntitySet="HOJA_ATENCION" />
+          </AssociationSet>
+          <AssociationSet Name="medico_persona_fk" Association="Self.medico_persona_fk">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="MEDICO" EntitySet="MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="paciente_persona_fk" Association="Self.paciente_persona_fk">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="relation_8_hoja_atencion_fk" Association="Self.relation_8_hoja_atencion_fk">
+            <End Role="HOJA_ATENCION" EntitySet="HOJA_ATENCION" />
+            <End Role="RECETA_MEDICAMENTO" EntitySet="RECETA_MEDICAMENTO" />
+          </AssociationSet>
+          <AssociationSet Name="relation_8_medicamento_fk" Association="Self.relation_8_medicamento_fk">
+            <End Role="MEDICAMENTO" EntitySet="MEDICAMENTO" />
+            <End Role="RECETA_MEDICAMENTO" EntitySet="RECETA_MEDICAMENTO" />
+          </AssociationSet>
+          <AssociationSet Name="reserva_medicamento_fk" Association="Self.reserva_medicamento_fk">
+            <End Role="MEDICAMENTO" EntitySet="MEDICAMENTO" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+          <AssociationSet Name="reserva_paciente_fk" Association="Self.reserva_paciente_fk">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="clinicaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="HOJA_ATENCION">
+          <Key>
+            <PropertyRef Name="id_hoja" />
+          </Key>
+          <Property Name="id_hoja" Type="Int32" Nullable="false" />
+          <Property Name="ingreso" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="observacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="receta" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_paciente" Type="Int32" Nullable="false" />
+          <Property Name="id_med" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.hoja_atencion_medico_fk" FromRole="HOJA_ATENCION" ToRole="MEDICO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.hoja_atencion_paciente_fk" FromRole="HOJA_ATENCION" ToRole="PACIENTE" />
+          <NavigationProperty Name="RECETA_MEDICAMENTO" Relationship="Self.relation_8_hoja_atencion_fk" FromRole="HOJA_ATENCION" ToRole="RECETA_MEDICAMENTO" />
+        </EntityType>
+        <EntityType Name="MEDICAMENTO">
+          <Key>
+            <PropertyRef Name="id_medica" />
+          </Key>
+          <Property Name="id_medica" Type="Int32" Nullable="false" />
+          <Property Name="nombre_medica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fabricante_medica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="gramaje_medica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="exp_medica" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="stock_medica" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RECETA_MEDICAMENTO" Relationship="Self.relation_8_medicamento_fk" FromRole="MEDICAMENTO" ToRole="RECETA_MEDICAMENTO" />
+          <NavigationProperty Name="RESERVA" Relationship="Self.reserva_medicamento_fk" FromRole="MEDICAMENTO" ToRole="RESERVA" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="id_med" />
+          </Key>
+          <Property Name="id_med" Type="Int32" Nullable="false" />
+          <Property Name="cargo_med" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_persona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HOJA_ATENCION" Relationship="Self.hoja_atencion_medico_fk" FromRole="MEDICO" ToRole="HOJA_ATENCION" />
+          <NavigationProperty Name="PERSONA" Relationship="Self.medico_persona_fk" FromRole="MEDICO" ToRole="PERSONA" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="id_paciente" />
+          </Key>
+          <Property Name="id_paciente" Type="Int32" Nullable="false" />
+          <Property Name="enfermedad_cronica" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="nombre_enfermedad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_persona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HOJA_ATENCION" Relationship="Self.hoja_atencion_paciente_fk" FromRole="PACIENTE" ToRole="HOJA_ATENCION" />
+          <NavigationProperty Name="PERSONA" Relationship="Self.paciente_persona_fk" FromRole="PACIENTE" ToRole="PERSONA" />
+          <NavigationProperty Name="RESERVA" Relationship="Self.reserva_paciente_fk" FromRole="PACIENTE" ToRole="RESERVA" />
+        </EntityType>
+        <EntityType Name="PERSONA">
+          <Key>
+            <PropertyRef Name="id_persona" />
+          </Key>
+          <Property Name="id_persona" Type="Int32" Nullable="false" />
+          <Property Name="numrun" Type="Decimal" Precision="8" Scale="0" Nullable="false" />
+          <Property Name="dv_run" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pnombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="snombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="appaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apmaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefono" Type="Decimal" Precision="9" Scale="0" Nullable="false" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.medico_persona_fk" FromRole="PERSONA" ToRole="MEDICO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.paciente_persona_fk" FromRole="PERSONA" ToRole="PACIENTE" />
+        </EntityType>
+        <EntityType Name="RECETA_MEDICAMENTO">
+          <Key>
+            <PropertyRef Name="id_receta_medica" />
+          </Key>
+          <Property Name="id_receta_medica" Type="Int32" Nullable="false" />
+          <Property Name="id_hoja" Type="Int32" Nullable="false" />
+          <Property Name="id_medica" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HOJA_ATENCION" Relationship="Self.relation_8_hoja_atencion_fk" FromRole="RECETA_MEDICAMENTO" ToRole="HOJA_ATENCION" />
+          <NavigationProperty Name="MEDICAMENTO" Relationship="Self.relation_8_medicamento_fk" FromRole="RECETA_MEDICAMENTO" ToRole="MEDICAMENTO" />
+        </EntityType>
+        <EntityType Name="RESERVA">
+          <Key>
+            <PropertyRef Name="id_reserva" />
+          </Key>
+          <Property Name="id_reserva" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="id_paciente" Type="Int32" Nullable="false" />
+          <Property Name="id_medica" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MEDICAMENTO" Relationship="Self.reserva_medicamento_fk" FromRole="RESERVA" ToRole="MEDICAMENTO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.reserva_paciente_fk" FromRole="RESERVA" ToRole="PACIENTE" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Datos_medico">
+          <Key>
+            <PropertyRef Name="id_persona" />
+            <PropertyRef Name="id_medico" />
+            <PropertyRef Name="Nombre_Completo" />
+            <PropertyRef Name="Rut" />
+            <PropertyRef Name="Cargo_Medico" />
+            <PropertyRef Name="Telefono" />
+            <PropertyRef Name="Correo" />
+            <PropertyRef Name="Direccion" />
+          </Key>
+          <Property Name="id_persona" Type="Int32" Nullable="false" />
+          <Property Name="id_medico" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_Completo" Type="String" MaxLength="203" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rut" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cargo_Medico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="Decimal" Precision="9" Scale="0" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Datos_paciente">
+          <Key>
+            <PropertyRef Name="id_persona" />
+            <PropertyRef Name="id_paciente" />
+            <PropertyRef Name="Nombre_Completo" />
+            <PropertyRef Name="Rut" />
+            <PropertyRef Name="Enfermedad_Cronica" />
+            <PropertyRef Name="Telefono" />
+            <PropertyRef Name="Correo" />
+            <PropertyRef Name="Direccion" />
+          </Key>
+          <Property Name="id_persona" Type="Int32" Nullable="false" />
+          <Property Name="id_paciente" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_Completo" Type="String" MaxLength="203" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rut" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Enfermedad_Cronica" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Enfermedad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="Decimal" Precision="9" Scale="0" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock_medicamentos">
+          <Key>
+            <PropertyRef Name="id_medica" />
+            <PropertyRef Name="Stock_medicamento" />
+            <PropertyRef Name="Nombre_Medicamento" />
+          </Key>
+          <Property Name="id_medica" Type="Int32" Nullable="false" />
+          <Property Name="Stock_medicamento" Type="Int32" Nullable="false" />
+          <Property Name="Reservado" Type="Int32" />
+          <Property Name="Restante" Type="Int32" />
+          <Property Name="Nombre_Medicamento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="hoja_atencion_medico_fk">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="HOJA_ATENCION" Type="Self.HOJA_ATENCION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="id_med" />
+            </Principal>
+            <Dependent Role="HOJA_ATENCION">
+              <PropertyRef Name="id_med" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hoja_atencion_paciente_fk">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="HOJA_ATENCION" Type="Self.HOJA_ATENCION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="HOJA_ATENCION">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_8_hoja_atencion_fk">
+          <End Role="HOJA_ATENCION" Type="Self.HOJA_ATENCION" Multiplicity="1" />
+          <End Role="RECETA_MEDICAMENTO" Type="Self.RECETA_MEDICAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOJA_ATENCION">
+              <PropertyRef Name="id_hoja" />
+            </Principal>
+            <Dependent Role="RECETA_MEDICAMENTO">
+              <PropertyRef Name="id_hoja" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_8_medicamento_fk">
+          <End Role="MEDICAMENTO" Type="Self.MEDICAMENTO" Multiplicity="1" />
+          <End Role="RECETA_MEDICAMENTO" Type="Self.RECETA_MEDICAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICAMENTO">
+              <PropertyRef Name="id_medica" />
+            </Principal>
+            <Dependent Role="RECETA_MEDICAMENTO">
+              <PropertyRef Name="id_medica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reserva_medicamento_fk">
+          <End Role="MEDICAMENTO" Type="Self.MEDICAMENTO" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICAMENTO">
+              <PropertyRef Name="id_medica" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="id_medica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_persona_fk">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="id_persona" />
+            </Principal>
+            <Dependent Role="MEDICO">
+              <PropertyRef Name="id_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paciente_persona_fk">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="id_persona" />
+            </Principal>
+            <Dependent Role="PACIENTE">
+              <PropertyRef Name="id_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reserva_paciente_fk">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="RESERVA" Type="Self.RESERVA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="RESERVA">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="clinicaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HOJA_ATENCION" EntityType="Self.HOJA_ATENCION" />
+          <EntitySet Name="MEDICAMENTO" EntityType="Self.MEDICAMENTO" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" />
+          <EntitySet Name="PERSONA" EntityType="Self.PERSONA" />
+          <EntitySet Name="RECETA_MEDICAMENTO" EntityType="Self.RECETA_MEDICAMENTO" />
+          <EntitySet Name="RESERVA" EntityType="Self.RESERVA" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Datos_medico" EntityType="Self.Datos_medico" />
+          <EntitySet Name="Datos_paciente" EntityType="Self.Datos_paciente" />
+          <EntitySet Name="Stock_medicamentos" EntityType="Self.Stock_medicamentos" />
+          <AssociationSet Name="hoja_atencion_medico_fk" Association="Self.hoja_atencion_medico_fk">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="HOJA_ATENCION" EntitySet="HOJA_ATENCION" />
+          </AssociationSet>
+          <AssociationSet Name="hoja_atencion_paciente_fk" Association="Self.hoja_atencion_paciente_fk">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="HOJA_ATENCION" EntitySet="HOJA_ATENCION" />
+          </AssociationSet>
+          <AssociationSet Name="relation_8_hoja_atencion_fk" Association="Self.relation_8_hoja_atencion_fk">
+            <End Role="HOJA_ATENCION" EntitySet="HOJA_ATENCION" />
+            <End Role="RECETA_MEDICAMENTO" EntitySet="RECETA_MEDICAMENTO" />
+          </AssociationSet>
+          <AssociationSet Name="relation_8_medicamento_fk" Association="Self.relation_8_medicamento_fk">
+            <End Role="MEDICAMENTO" EntitySet="MEDICAMENTO" />
+            <End Role="RECETA_MEDICAMENTO" EntitySet="RECETA_MEDICAMENTO" />
+          </AssociationSet>
+          <AssociationSet Name="reserva_medicamento_fk" Association="Self.reserva_medicamento_fk">
+            <End Role="MEDICAMENTO" EntitySet="MEDICAMENTO" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+          <AssociationSet Name="medico_persona_fk" Association="Self.medico_persona_fk">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="MEDICO" EntitySet="MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="paciente_persona_fk" Association="Self.paciente_persona_fk">
+            <End Role="PERSONA" EntitySet="PERSONA" />
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="reserva_paciente_fk" Association="Self.reserva_paciente_fk">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="RESERVA" EntitySet="RESERVA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="clinicaModelStoreContainer" CdmEntityContainer="clinicaEntities">
+          <EntitySetMapping Name="HOJA_ATENCION">
+            <EntityTypeMapping TypeName="clinicaModel.HOJA_ATENCION">
+              <MappingFragment StoreEntitySet="HOJA_ATENCION">
+                <ScalarProperty Name="id_hoja" ColumnName="id_hoja" />
+                <ScalarProperty Name="ingreso" ColumnName="ingreso" />
+                <ScalarProperty Name="observacion" ColumnName="observacion" />
+                <ScalarProperty Name="receta" ColumnName="receta" />
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="id_med" ColumnName="id_med" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICAMENTO">
+            <EntityTypeMapping TypeName="clinicaModel.MEDICAMENTO">
+              <MappingFragment StoreEntitySet="MEDICAMENTO">
+                <ScalarProperty Name="id_medica" ColumnName="id_medica" />
+                <ScalarProperty Name="nombre_medica" ColumnName="nombre_medica" />
+                <ScalarProperty Name="fabricante_medica" ColumnName="fabricante_medica" />
+                <ScalarProperty Name="gramaje_medica" ColumnName="gramaje_medica" />
+                <ScalarProperty Name="exp_medica" ColumnName="exp_medica" />
+                <ScalarProperty Name="stock_medica" ColumnName="stock_medica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICO">
+            <EntityTypeMapping TypeName="clinicaModel.MEDICO">
+              <MappingFragment StoreEntitySet="MEDICO">
+                <ScalarProperty Name="id_med" ColumnName="id_med" />
+                <ScalarProperty Name="cargo_med" ColumnName="cargo_med" />
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACIENTE">
+            <EntityTypeMapping TypeName="clinicaModel.PACIENTE">
+              <MappingFragment StoreEntitySet="PACIENTE">
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="enfermedad_cronica" ColumnName="enfermedad_cronica" />
+                <ScalarProperty Name="nombre_enfermedad" ColumnName="nombre_enfermedad" />
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONA">
+            <EntityTypeMapping TypeName="clinicaModel.PERSONA">
+              <MappingFragment StoreEntitySet="PERSONA">
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+                <ScalarProperty Name="numrun" ColumnName="numrun" />
+                <ScalarProperty Name="dv_run" ColumnName="dv_run" />
+                <ScalarProperty Name="pnombre" ColumnName="pnombre" />
+                <ScalarProperty Name="snombre" ColumnName="snombre" />
+                <ScalarProperty Name="appaterno" ColumnName="appaterno" />
+                <ScalarProperty Name="apmaterno" ColumnName="apmaterno" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RECETA_MEDICAMENTO">
+            <EntityTypeMapping TypeName="clinicaModel.RECETA_MEDICAMENTO">
+              <MappingFragment StoreEntitySet="RECETA_MEDICAMENTO">
+                <ScalarProperty Name="id_receta_medica" ColumnName="id_receta_medica" />
+                <ScalarProperty Name="id_hoja" ColumnName="id_hoja" />
+                <ScalarProperty Name="id_medica" ColumnName="id_medica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESERVA">
+            <EntityTypeMapping TypeName="clinicaModel.RESERVA">
+              <MappingFragment StoreEntitySet="RESERVA">
+                <ScalarProperty Name="id_reserva" ColumnName="id_reserva" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="id_medica" ColumnName="id_medica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="clinicaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_medico">
+            <EntityTypeMapping TypeName="clinicaModel.Datos_medico">
+              <MappingFragment StoreEntitySet="Datos_medico">
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+                <ScalarProperty Name="id_medico" ColumnName="id_medico" />
+                <ScalarProperty Name="Nombre_Completo" ColumnName="Nombre Completo" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="Cargo_Medico" ColumnName="Cargo Medico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_paciente">
+            <EntityTypeMapping TypeName="clinicaModel.Datos_paciente">
+              <MappingFragment StoreEntitySet="Datos_paciente">
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="Nombre_Completo" ColumnName="Nombre Completo" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="Enfermedad_Cronica" ColumnName="Enfermedad Cronica" />
+                <ScalarProperty Name="Enfermedad" ColumnName="Enfermedad" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock_medicamentos">
+            <EntityTypeMapping TypeName="clinicaModel.Stock_medicamentos">
+              <MappingFragment StoreEntitySet="Stock_medicamentos">
+                <ScalarProperty Name="Nombre_Medicamento" ColumnName="Nombre Medicamento" />
+                <ScalarProperty Name="id_medica" ColumnName="id_medica" />
+                <ScalarProperty Name="Stock_medicamento" ColumnName="Stock medicamento" />
+                <ScalarProperty Name="Reservado" ColumnName="Reservado" />
+                <ScalarProperty Name="Restante" ColumnName="Restante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

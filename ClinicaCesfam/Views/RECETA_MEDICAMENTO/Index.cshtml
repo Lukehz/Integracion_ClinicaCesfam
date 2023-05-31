@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ClinicaCesfam.Models.RECETA_MEDICAMENTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Recetas medicas</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HOJA_ATENCION.id_hoja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEDICAMENTO.nombre_medica)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HOJA_ATENCION.id_hoja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEDICAMENTO.nombre_medica) <span>-</span>
+            @Html.DisplayFor(modelItem => item.MEDICAMENTO.fabricante_medica) <span>-</span>
+            @Html.DisplayFor(modelItem => item.MEDICAMENTO.gramaje_medica)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_receta_medica }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_receta_medica }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_receta_medica })
+        </td>
+    </tr>
+}
+
+</table>

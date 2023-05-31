@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ClinicaCesfam.Models.PERSONA>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Personas</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.numrun)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dv_run)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pnombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.snombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.appaterno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.apmaterno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefono)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.numrun)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dv_run)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pnombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.snombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.appaterno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.apmaterno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telefono)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_persona }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_persona }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_persona })
+        </td>
+    </tr>
+}
+
+</table>

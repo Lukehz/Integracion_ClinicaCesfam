@@ -1,0 +1,50 @@
+﻿@model ClinicaCesfam.Models.PACIENTE
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PACIENTE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_paciente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_paciente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.enfermedad_cronica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.enfermedad_cronica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre_enfermedad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre_enfermedad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PERSONA.id_persona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PERSONA.id_persona)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_paciente }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

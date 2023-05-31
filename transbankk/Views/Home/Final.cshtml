@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <p>Valor: <font id="amount"></font></p>
+    <p>Codigo de autorizacion:<font id="authorizationCode"></font></p>
+    <p>Codigo de respuesta: <font id="responseCode"></font></p>
+    <script>
+        document.getElementById('amount').innerHTML = window.localStorage.getItem('amount');
+        document.getElementById('authorizationCode').innerHTML = window.localStorage.getItem('authorizationCode');
+        document.getElementById('responseCode').innerHTML = window.localStorage.getItem('responseCode');
+    </script>
+</body>
+</html>

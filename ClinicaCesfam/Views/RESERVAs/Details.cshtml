@@ -1,0 +1,74 @@
+﻿@model ClinicaCesfam.Models.RESERVA
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RESERVA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_reserva)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_reserva)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICAMENTO.nombre_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICAMENTO.nombre_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICAMENTO.fabricante_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICAMENTO.fabricante_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICAMENTO.gramaje_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICAMENTO.gramaje_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICAMENTO.exp_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICAMENTO.exp_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cantidad)<span> reservada</span>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cantidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PACIENTE.id_paciente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PACIENTE.id_paciente)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_reserva }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

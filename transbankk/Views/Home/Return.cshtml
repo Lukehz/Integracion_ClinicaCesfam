@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    @if (ViewBag.ResponseCode == 0)
+    { 
+        <form action="@ViewBag.UrlRedirection" method="post">
+            <input type="hidden" name="token_ws" value="@ViewBag.TokenWs"/>
+        </form>
+        <script>
+            window.localStorage.clear();
+            window.localStorage.setItem("authorizationCode", @ViewBag.AuthorizationCode);
+            window.localStorage.setItem("amount", @ViewBag.Amount);
+            window.localStorage.setItem("responseCode", @ViewBag.ResponseCode);
+            document.getElementById('returnforn').submit();
+        </script>
+     }
+</body>
+</html>

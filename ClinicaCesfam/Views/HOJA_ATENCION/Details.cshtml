@@ -1,0 +1,66 @@
+﻿@model ClinicaCesfam.Models.HOJA_ATENCION
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HOJA_ATENCION</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_hoja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_hoja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ingreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ingreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_paciente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_paciente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.observacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.receta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.receta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_med)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_med)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_hoja }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

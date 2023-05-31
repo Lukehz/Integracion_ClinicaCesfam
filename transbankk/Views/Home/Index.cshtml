@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<p>Valor: @ViewBag.Amount</p>
+<p>Orden de compra: @ViewBag.BuyOrder</p>
+<form action="@ViewBag.FormAction" method="post">
+    <input type="hidden" name="token_ws" value="@ViewBag.TokenWs"/>
+    <button type="submit" class="btn btn-primary">Pagar</button>
+</form>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ClinicaCesfam.Models.PACIENTE>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Pacientes</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.enfermedad_cronica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre_enfermedad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PERSONA.id_persona)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.enfermedad_cronica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre_enfermedad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PERSONA.id_persona)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_paciente }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_paciente }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_paciente })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,48 @@
+﻿@model ClinicaCesfam.Models.MEDICO
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MEDICO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_med)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_med)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cargo_med)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cargo_med)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PERSONA.id_persona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PERSONA.id_persona)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

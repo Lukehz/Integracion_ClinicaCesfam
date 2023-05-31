@@ -1,0 +1,66 @@
+﻿@model ClinicaCesfam.Models.MEDICAMENTO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MEDICAMENTO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fabricante_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fabricante_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gramaje_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gramaje_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.exp_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.exp_medica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stock_medica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stock_medica)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_medica }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
