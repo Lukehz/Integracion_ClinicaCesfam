@@ -10,7 +10,7 @@
 </style>
 <div class="title">
     <h1>Pago reserva medicamento</h1>
-    <span><h1>Nro Orden de compra: @ViewBag.buyOrder</span>
+    <h1>Nro Orden de compra: @ViewBag.buyOrder</h1>
 </div>
 
 
@@ -58,25 +58,31 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2"> Valor Total: </label>
+            <label class="control-label col-md-2" for="inputValue"> Valor Total: </label>
             <div class="col-md-10">
-                <input type="number" class="form-control text-box single-line" />
+                <input type="number" class="form-control text-box single-line" name="inputValue" id="inputValue" required/>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+        <form method="post" action="@ViewBag.url" onsubmit="return validateForm()">
+            <input type="submit" value="Create" />
+        </form>
+
+        <script>
+            function validateForm() {
+                var inputValue = document.getElementById("inputValue").value;
+                if (inputValue === "") {
+                    alert("Por favor, ingrese un valor en el campo Valor Total.");
+                    return false; // Evita enviar el formulario si el campo está vacío
+                }
+                return true; // Envía el formulario si el campo tiene un valor
+            }
+        </script>
     </div>
 }
 
 
-    <form method="post" action="@ViewBag.FormAction">
-        <input type="hidden" name="token_ws" value="@ViewBag.TokenWs" />
-        <button type="submit" class="btn btn-primary">Pagar</button>
-    </form>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

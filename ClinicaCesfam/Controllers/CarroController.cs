@@ -25,7 +25,10 @@ namespace ClinicaCesfam.Controllers
 
             ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
             ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente");
-
+            //var buyOrderr = new Random().Next(100000, 999999999).ToString();
+            //ViewBag.buyOrder = buyOrderr;
+            /*
+            //TRANSBANK
             //Constructor con parametros obtenidos del transbankSdk codigo de comercio, api keys,y integracion.test ".test" especifica que es de testeo.
             //Todo esto es integreacion por eso "Integration...WEBPAY" y "WebpayIntegrationType.Test" de testeo
             var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
@@ -40,11 +43,15 @@ namespace ClinicaCesfam.Controllers
             var formAction = response.Url;
             var tokenWs = response.Token;
 
+            var url = formAction + "?token_ws=" + tokenWs;
+
+            ViewBag.url = url;
 
             ViewBag.Amount = amount;
             ViewBag.BuyOrder = buyOrder;
             ViewBag.TokenWs = tokenWs;
             ViewBag.FormAction = formAction;
+            */
             return View();
         }
         // POST: RESERVAs/Create
@@ -52,18 +59,40 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA)
+        public ActionResult Index([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA, int inputValue)
         {
+            //TRANSBANK
+            //Constructor con parametros obtenidos del transbankSdk codigo de comercio, api keys,y integracion.test ".test" especifica que es de testeo.
+            //Todo esto es integreacion por eso "Integration...WEBPAY" y "WebpayIntegrationType.Test" de testeo
+            var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
+
+            int amount = 2000;
+            amount = inputValue;
+            var buyOrder = new Random().Next(100000, 999999999).ToString();
+            var sessionId = "sessionId";
+            string returnUrl = "http://localhost:51783/Carro/Comprobante";
+
+            //CREA LA TRANSACCION 
+            var response = tx.Create(buyOrder, sessionId, amount, returnUrl);
+            //AL CREAR LA TRANSACCION, TRANSBANK ENVIE URL DE LA PAGINA DE TRANSACCION Y EL TOKEN QUE IDENTIFICA LA TRANSACCION
+            //RECIBO URL Y TOKEN Y LAS ALMACENO
+            var formAction = response.Url;
+            var tokenWs = response.Token;
+            //CREO UNA SOLA URL Y AL ACCIONAR EL BOTON PAGAR EN EL INDEX.CSHTML EN CARRO ME ENVIA A LA URL
+            var url = formAction + "?token_ws=" + tokenWs;
+
+            ViewBag.buyOrder = buyOrder;
+            ViewBag.url = url;
             {
                 if (ModelState.IsValid)
                 {
                     db.RESERVA.Add(rESERVA);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return Redirect(url);
                 }
-
-                ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica", rESERVA.id_medica);
-                ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "enfermedad_cronica", rESERVA.id_paciente);
+                ViewBag.buyOrder = buyOrder;
+                ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica", rESERVA.id_medica);
+                ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente", rESERVA.id_paciente);
                 return View();
             }
         }
