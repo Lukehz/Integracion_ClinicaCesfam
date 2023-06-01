@@ -3,45 +3,93 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
+<style>
+    .table-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
 
+    table {
+        display: flex;
+        border-radius: 20px;
+        margin: 10px;
+        border-collapse: collapse;
+        border-radius: 20px;
+        border: 2px solid black;
+        overflow:hidden;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        border-radius: 20px;
+    }
+</style>
 <div class="jumbotron">
-    <h2>Retorno</h2>
-    <p>Valor: @ViewBag.Amount<font id="amount"></font></p>
-    <p>Codigo de autorizacion: @ViewBag.AuthorizationCode<font id="authorizationCode"></font></p>
-    <p>Codigo de respuesta: @ViewBag.ResponseCode<font id="responseCode"></font></p>
-
-    <p>commit</p>
-    @ViewBag.Vci;
-    @ViewBag.Amount;
-    @ViewBag.Status;
-    @ViewBag.BuyOrder;
-    @ViewBag.SessionId;
-    @ViewBag.CardDetail;
-    @ViewBag.AccountingDate;
-    @ViewBag.TransactionDate;
-    @ViewBag.AuthorizationCode;
-    @ViewBag.PaymentTypeCode;<br />
-    <p>@ViewBag.ResponseCode;</p><br />
-    @ViewBag.InstallmentsAmount     <!--Monto de las cuotas; -->
-    @ViewBag.InstallmentsNumber;
-    @ViewBag.Balance;<!--Monto restante para un detalle anulado -->
-
-    <p>/////////////////////////////////////////////</p>
-    <p>Status</p>
-    @ViewBag.ci;
-    @ViewBag.mount;
-    @ViewBag.tatus;
-    @ViewBag.uyOrder;
-    @ViewBag.essionId;
-    @ViewBag.ardDetail;
-    @ViewBag.ccountingDate;
-    @ViewBag.ransactionDate;
-    @ViewBag.uthorizationCode;
-    @ViewBag.aymentTypeCode;<br />
-    <p>@ViewBag.esponseCode;</p><br />
-    @ViewBag.nstallmentsAmount     <!--Monto de las cuotas; -->
-    @ViewBag.nstallmentsNumber;
-    @ViewBag.alance;<!--Monto restante para un detalle anulado -->
-
+    <div class="table-container">
+        <table>
+            <tr>
+                <th colspan="2">Comprobante</th>
+            </tr>
+            <tr>
+                <td>Vci: </td>
+                <td>@ViewBag.Vci</td>
+            </tr>
+            <tr>
+                <td>Total: </td>
+                <td> $@ViewBag.Amount</td>
+            </tr>
+            <tr>
+                <td>Status: </td>
+                <td> @ViewBag.Status</td>
+            </tr>
+            <tr>
+                <td>Orden de compra: </td>
+                <td> @ViewBag.BuyOrder</td>
+            </tr>
+            <tr>
+                <td>id: </td>
+                <td> @ViewBag.SessionId</td>
+            </tr>
+            <tr>
+                <td>Detalle tarjeta: </td>
+                <td>@ViewBag.CardDetail</td>
+            </tr>
+            <tr>
+                <td>MM/DD</td>
+                <td>@ViewBag.AccountingDate</td>
+            </tr>
+            <tr>
+                <td>Fecha/Hora de transaccion: </td>
+                <td>@ViewBag.TransactionDate</td>
+            </tr>
+            <tr>
+                <td>Codigo de autorizacion: </td>
+                <td> @ViewBag.AuthorizationCode</td>
+            </tr>
+            <tr>
+                <td>Tipo de pago de la transacción: </td>
+                <td>@ViewBag.PaymentTypeCode</td>
+            </tr>
+            <tr>
+                <td>Codigo de estado transaccion: </td>
+                <td>@ViewBag.ResponseCode</td>
+            </tr>
+            <tr>
+                <td>Valor cuota: </td>
+                <td> @ViewBag.InstallmentsAmount</td>
+            </tr>
+            <tr>
+                <td>Cantidad de cuotas: </td>
+                <td>@ViewBag.InstallmentsNumber</td>
+            </tr>
+            <tr>
+                <td>Monto restante para un detalle anulado: </td>
+                <td>@ViewBag.Balance</td>
+            </tr>
+        </table>
+    </div>
 </div>
 
