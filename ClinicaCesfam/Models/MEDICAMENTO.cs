@@ -27,6 +27,7 @@ namespace ClinicaCesfam.Models
         public string gramaje_medica { get; set; }
         public System.DateTime exp_medica { get; set; }
         public int stock_medica { get; set; }
+        public int Precio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RECETA_MEDICAMENTO> RECETA_MEDICAMENTO { get; set; }

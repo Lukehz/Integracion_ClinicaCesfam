@@ -12,7 +12,6 @@
           <Property Name="id_hoja" Type="int" Nullable="false" />
           <Property Name="ingreso" Type="datetime2" Precision="2" Nullable="false" />
           <Property Name="observacion" Type="varchar" MaxLength="2000" Nullable="false" />
-          <Property Name="receta" Type="varchar" MaxLength="2000" Nullable="false" />
           <Property Name="id_paciente" Type="int" Nullable="false" />
           <Property Name="id_med" Type="int" Nullable="false" />
         </EntityType>
@@ -26,6 +25,7 @@
           <Property Name="gramaje_medica" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="exp_medica" Type="date" Nullable="false" />
           <Property Name="stock_medica" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MEDICO">
           <Key>
@@ -328,7 +328,6 @@ advertencia 6002: La tabla o vista 'clinica.dbo.Stock_medicamentos' no tiene def
           <Property Name="id_hoja" Type="Int32" Nullable="false" />
           <Property Name="ingreso" Type="DateTime" Nullable="false" Precision="2" />
           <Property Name="observacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="receta" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id_paciente" Type="Int32" Nullable="false" />
           <Property Name="id_med" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MEDICO" Relationship="Self.hoja_atencion_medico_fk" FromRole="HOJA_ATENCION" ToRole="MEDICO" />
@@ -347,6 +346,7 @@ advertencia 6002: La tabla o vista 'clinica.dbo.Stock_medicamentos' no tiene def
           <Property Name="stock_medica" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RECETA_MEDICAMENTO" Relationship="Self.relation_8_medicamento_fk" FromRole="MEDICAMENTO" ToRole="RECETA_MEDICAMENTO" />
           <NavigationProperty Name="RESERVA" Relationship="Self.reserva_medicamento_fk" FromRole="MEDICAMENTO" ToRole="RESERVA" />
+          <Property Name="Precio" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MEDICO">
           <Key>
@@ -624,7 +624,6 @@ advertencia 6002: La tabla o vista 'clinica.dbo.Stock_medicamentos' no tiene def
                 <ScalarProperty Name="id_hoja" ColumnName="id_hoja" />
                 <ScalarProperty Name="ingreso" ColumnName="ingreso" />
                 <ScalarProperty Name="observacion" ColumnName="observacion" />
-                <ScalarProperty Name="receta" ColumnName="receta" />
                 <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
                 <ScalarProperty Name="id_med" ColumnName="id_med" />
               </MappingFragment>
@@ -633,6 +632,7 @@ advertencia 6002: La tabla o vista 'clinica.dbo.Stock_medicamentos' no tiene def
           <EntitySetMapping Name="MEDICAMENTO">
             <EntityTypeMapping TypeName="clinicaModel.MEDICAMENTO">
               <MappingFragment StoreEntitySet="MEDICAMENTO">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="id_medica" ColumnName="id_medica" />
                 <ScalarProperty Name="nombre_medica" ColumnName="nombre_medica" />
                 <ScalarProperty Name="fabricante_medica" ColumnName="fabricante_medica" />

@@ -46,7 +46,7 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_medica,nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica")] MEDICAMENTO mEDICAMENTO)
+        public ActionResult Create([Bind(Include = "id_medica,nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica,precio")] MEDICAMENTO mEDICAMENTO)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_medica,nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica")] MEDICAMENTO mEDICAMENTO)
+        public ActionResult Edit([Bind(Include = "id_medica,nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica,precio")] MEDICAMENTO mEDICAMENTO)
         {
             if (ModelState.IsValid)
             {

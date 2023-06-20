@@ -23,7 +23,6 @@ namespace ClinicaCesfam.Models
         public int id_hoja { get; set; }
         public System.DateTime ingreso { get; set; }
         public string observacion { get; set; }
-        public string receta { get; set; }
         public int id_paciente { get; set; }
         public int id_med { get; set; }
     

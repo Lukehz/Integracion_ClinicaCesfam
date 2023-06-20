@@ -51,7 +51,7 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_hoja,ingreso,observacion,receta,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
+        public ActionResult Create([Bind(Include = "id_hoja,ingreso,observacion,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_hoja,ingreso,observacion,receta,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
+        public ActionResult Edit([Bind(Include = "id_hoja,ingreso,observacion,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
         {
             if (ModelState.IsValid)
             {

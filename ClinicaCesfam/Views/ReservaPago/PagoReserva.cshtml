@@ -1,0 +1,194 @@
+﻿@model ClinicaCesfam.ViewModels.MedicamentoReservaViewModel
+
+@{
+    ViewBag.Title = "PagoReserva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Pago Reserva</h2>
+
+<style>
+    .table-container {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    table {
+        display: flex;
+        border-radius: 20px;
+        margin: 10px;
+        border-collapse: collapse;
+        border-radius: 20px;
+        border: 2px solid black;
+        overflow: hidden;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .form-control {
+        text-align: center;
+    }
+
+    .col-md-10 {
+        margin: auto;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <div class="table-container">
+            <table>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <tr>
+                    <th><h4>MEDICAMENTO</h4></th>
+                    <th><h4>DATOS DE RESERVA</h4></th>
+                </tr>
+                <tr>
+                    <td>
+                        <dt>
+                            Nombre Medicamento
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Medicamento.nombre_medica)
+                        </dd>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dt>
+                            Fabricante
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Medicamento.fabricante_medica)
+                        </dd>
+                    </td>
+                    <td>
+                        <dt>
+                            Nro de Reserva
+                        </dt>
+                        <dd>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Reserva.id_reserva, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Reserva.id_reserva, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Reserva.id_reserva, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </dd>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dt>
+                            Gramaje
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Medicamento.gramaje_medica)
+                        </dd>
+                    </td>
+                    <td>
+                        <dt>
+                            Rut del paciente
+                        </dt>
+                        <dd>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Reserva.id_paciente, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("Reserva.id_paciente", ViewBag.id_paciente as SelectList, htmlAttributes: new { @class = "form-control", id = "id_paciente" })
+                                    @Html.ValidationMessageFor(model => model.Reserva.id_paciente, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </dd>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dt>
+                            Fecha de vencimiento
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Medicamento.exp_medica)
+                        </dd>
+                    <td>
+                        <dt>
+                            Recerbante
+                        </dt>
+                        <dd>
+                            <p id="nombreApellido"></p>
+                        </dd>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dt>
+                            Precio Unitario
+                        </dt>
+                        <dd>
+                            $@Html.DisplayFor(model => model.Medicamento.Precio)
+                        </dd>
+                    </td>
+                    <td>
+                        <dt>
+                            Cantidad
+                        </dt>
+                        <dd>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Reserva.cantidad, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Reserva.cantidad, new { htmlAttributes = new { @class = "form-control", id = "cantidad" } })
+                                    @Html.ValidationMessageFor(model => model.Reserva.cantidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </dd>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <dt>
+                            Total a pagar
+                        </dt>
+                        <dd>
+                            <div class="form-control">
+                                $<span name="total" id="total"></span>
+                            </div>
+                        </dd>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        <form method="post" action="@ViewBag.url" onsubmit="return validateForm()">
+                            <input type="hidden" name="usuarioReserva" id="usuarioReserva" />
+                            <input type="hidden" id="id_medica" name="Reserva.id_medica" value="@Html.DisplayFor(model => model.Medicamento.id_medica)" />
+                            <input type="hidden" name="totalHidden" id="totalHidden" />
+                            <input type="submit" value="Create" />
+                        </form>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!--
+    Este archivo Javascript sirve para: multiplicar la cantidad del producto por el valor unitario, y muestra el total en tiempo real.
+    tambien muestra el nombre de la persona que reserva en tiempo real, segun el rut que seleccione.
+    -->
+<script src="~/Scripts/TotalPagar.js"></script>
+
+
+<!--
+    Envia el precio unitario del medicamento    
+-->
+<script>
+    var precioMedicamento = @Html.Raw(Json.Encode(Model.Medicamento.Precio));
+</script>
