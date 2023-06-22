@@ -60,47 +60,62 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
 
         //Create, mas la transaccion Transbank, recibe el total a pagar y sessionid
-        public ActionResult PagoReserva([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA, int totalHidden, string usuarioReserva)
+        public ActionResult PagoReserva([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA, int? id, int? totalHidden, string usuarioReserva)
         {
             //TRANSBANK
             //Constructor con parametros obtenidos del transbankSdk codigo de comercio, api keys,y integracion.test ".test" especifica que es de testeo.
             //Todo esto es integreacion por eso "Integration...WEBPAY" y "WebpayIntegrationType.Test" de testeo
             var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
 
-            int amount = 2000;
-            amount = totalHidden;
+
             var buyOrder = new Random().Next(100000, 999999999).ToString();
-            usuarioReserva = usuarioReserva.Replace(" ", "_");
-            var sessionId = usuarioReserva;
-            string returnUrl = "https://localhost:44321/ReservaPago/Comprobante";
-
-            //CREA LA TRANSACCION 
-            var response = tx.Create(buyOrder, sessionId, amount, returnUrl);
-            //AL CREAR LA TRANSACCION, TRANSBANK ENVIE URL DE LA PAGINA DE TRANSACCION Y EL TOKEN QUE IDENTIFICA LA TRANSACCION
-            //RECIBO URL Y TOKEN Y LAS ALMACENO
-            var formAction = response.Url;
-            var tokenWs = response.Token;
-            //CREO UNA SOLA URL Y AL ACCIONAR EL BOTON PAGAR EN EL INDEX.CSHTML EN CARRO ME ENVIA A LA URL
-            var url = formAction + "?token_ws=" + tokenWs;
-
-            ViewBag.buyOrder = buyOrder;
-            ViewBag.url = url;
-            { 
-                if (ModelState.IsValid)
+            //condiciones para que los valores a enviar a transbank no sean nulos.
+            if (totalHidden != null)
+            {
+                var amount = (int)totalHidden;
+                if (usuarioReserva != null)
                 {
-                    db.RESERVA.Add(rESERVA);
-                    db.SaveChanges();
-                    return Redirect(url);
+                    if (usuarioReserva != "")
+                    { 
+
+                        usuarioReserva = usuarioReserva.Replace(" ", "_");
+                        var sessionId = usuarioReserva;
+                        string returnUrl = "https://localhost:44321/ReservaPago/Comprobante";
+                        //CREA LA TRANSACCION 
+                        var response = tx.Create(buyOrder, sessionId, amount, returnUrl);
+                        //AL CREAR LA TRANSACCION, TRANSBANK ENVIE URL DE LA PAGINA DE TRANSACCION Y EL TOKEN QUE IDENTIFICA LA TRANSACCION
+                        //RECIBO URL Y TOKEN Y LAS ALMACENO
+                        var formAction = response.Url;
+                        var tokenWs = response.Token;
+                        //CREO UNA SOLA URL Y AL ACCIONAR EL BOTON PAGAR EN EL INDEX.CSHTML EN CARRO ME ENVIA A LA URL
+                        var url = formAction + "?token_ws=" + tokenWs;
+
+                        ViewBag.buyOrder = buyOrder;
+                        ViewBag.url = url;
+                        {
+                            if (ModelState.IsValid)
+                            {
+                                db.RESERVA.Add(rESERVA);
+                                db.SaveChanges();
+                                return Redirect(url);
+                            }
+                        }
+                    }
                 }
             }
-
+            MEDICAMENTO mEDICAMENTO = db.MEDICAMENTO.Find(id);
+            var viewModel = new MedicamentoReservaViewModel
+            {
+                Medicamento = mEDICAMENTO,
+                Reserva = rESERVA
+            };
             //inner join para PERSONA.id_persona==PACIENTE.id_paciente para obtener el rut 
             var pacientes = db.PERSONA
             .Join(db.PACIENTE, p => p.id_persona, pa => pa.id_persona, (p, pa) => new { p.numrun, pa.id_paciente })
             .ToList();
             //Crea la lista desplegable
             ViewBag.id_paciente = new SelectList(pacientes, "id_paciente", "numrun");
-            return View(rESERVA);
+            return View(viewModel);
         }
 
         public ActionResult Comprobante(string token_ws)
