@@ -36,14 +36,18 @@ namespace ClinicaCesfam.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             //inner join para PERSONA.id_persona==PACIENTE.id_paciente para obtener el rut 
             var pacientes = db.PERSONA
             .Join(db.PACIENTE, p => p.id_persona, pa => pa.id_persona, (p, pa) => new { p.numrun, pa.id_paciente })
             .ToList();
+
             //Crea la lista desplegable
             ViewBag.id_paciente = new SelectList(pacientes, "id_paciente", "numrun");
+
             //Busca el medicamento por su id
             MEDICAMENTO mEDICAMENTO = db.MEDICAMENTO.Find(id);
+
             //Crea el viewModel que contiene Models.MEDICAMENTO Y Models.RESERVA
             var viewModel = new MedicamentoReservaViewModel
             {
@@ -70,35 +74,37 @@ namespace ClinicaCesfam.Controllers
 
             var buyOrder = new Random().Next(100000, 999999999).ToString();
             //condiciones para que los valores a enviar a transbank no sean nulos.
-            if (totalHidden != null)
+            if (totalHidden != null && totalHidden > 0)
             {
                 var amount = (int)totalHidden;
-                if (usuarioReserva != null)
+
+                if (usuarioReserva != null && usuarioReserva != "")
                 {
-                    if (usuarioReserva != "")
-                    { 
 
-                        usuarioReserva = usuarioReserva.Replace(" ", "_");
-                        var sessionId = usuarioReserva;
-                        string returnUrl = "https://localhost:44321/ReservaPago/Comprobante";
-                        //CREA LA TRANSACCION 
-                        var response = tx.Create(buyOrder, sessionId, amount, returnUrl);
-                        //AL CREAR LA TRANSACCION, TRANSBANK ENVIE URL DE LA PAGINA DE TRANSACCION Y EL TOKEN QUE IDENTIFICA LA TRANSACCION
-                        //RECIBO URL Y TOKEN Y LAS ALMACENO
-                        var formAction = response.Url;
-                        var tokenWs = response.Token;
-                        //CREO UNA SOLA URL Y AL ACCIONAR EL BOTON PAGAR EN EL INDEX.CSHTML EN CARRO ME ENVIA A LA URL
-                        var url = formAction + "?token_ws=" + tokenWs;
+                    usuarioReserva = usuarioReserva.Replace(" ", "_");
+                    var sessionId = usuarioReserva;
+                    string returnUrl = "https://localhost:44321/ReservaPago/Resultado";
 
-                        ViewBag.buyOrder = buyOrder;
-                        ViewBag.url = url;
+                    //Crea la transaccion
+                    var response = tx.Create(buyOrder, sessionId, amount, returnUrl);
+
+                    //Al crear la transacción, Transbank envíe URL de la página de transaccion y el token que identifica la transaccion
+                    //Recibo URL y TOKEN y las almaceno
+                    var formAction = response.Url;
+                    var tokenWs = response.Token;
+
+                    //Creo una sola URL y al accionar el botón "Pagar" en el archivo PagoReserva.cshtml en ReservaPago, me envía a la URL
+                    var url = formAction + "?token_ws=" + tokenWs;
+
+                    ViewBag.buyOrder = buyOrder;
+                    ViewBag.url = url;
+                    {
+                        if (ModelState.IsValid)
                         {
-                            if (ModelState.IsValid)
-                            {
-                                db.RESERVA.Add(rESERVA);
-                                db.SaveChanges();
-                                return Redirect(url);
-                            }
+                            //db.RESERVA.Add(rESERVA);
+                            //db.SaveChanges();
+                            TempData["reserva"] = rESERVA;
+                            return Redirect(url);
                         }
                     }
                 }
@@ -118,11 +124,39 @@ namespace ClinicaCesfam.Controllers
             return View(viewModel);
         }
 
+        //Pagina que hace de intermediario para redirigir a la pagina Comprobante(Si la Transaccion es exitosa) y erroTransacccion(Si hay Error o a sido Rechazado)
+        public ActionResult Resultado(string token_ws)
+        {
+            var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
+            if (token_ws != null)
+            {
+                var response = tx.Commit(token_ws);
+
+                // Transaccion exitosa
+                if (response.ResponseCode == 0)
+                {
+                    var reserva = TempData["reserva"] as RESERVA;
+                    db.RESERVA.Add(reserva);
+                    db.SaveChanges();
+                    return RedirectToAction("Comprobante", new { token_ws = token_ws });
+                }
+                // Manejar el caso en que reserva sea null si es necesario
+                else if (response.ResponseCode != 0)
+                {
+                    // Ocurrió un problema durante la transacción, redirigir a la página de error
+                    return RedirectToAction("ErrorTransaccion", new { token_ws = token_ws });
+                }
+            }
+
+            // Error o Transaccion rechazada
+            return View("ErrorTransaccion");
+        }
+
+        //Pagina si a sido exitosa
         public ActionResult Comprobante(string token_ws)
         {
             var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
             var response = tx.Commit(token_ws);
-
 
             //este es del commit
             ViewBag.Vci = response.Vci;
@@ -139,29 +173,29 @@ namespace ClinicaCesfam.Controllers
             ViewBag.InstallmentsAmount = response.InstallmentsAmount;
             ViewBag.InstallmentsNumber = response.InstallmentsNumber;
             ViewBag.Balance = response.Balance;
-
-            var responsee = tx.Status(token_ws);
-
-            //este es el status
-            ViewBag.ci = responsee.Vci;
-            ViewBag.mount = responsee.Amount;
-            ViewBag.tatus = responsee.Status;
-            ViewBag.uyOrder = responsee.BuyOrder;
-            ViewBag.essionId = responsee.SessionId;
-            ViewBag.ardDetail = responsee.CardDetail;
-            ViewBag.ccountingDate = responsee.AccountingDate;
-            ViewBag.ransactionDate = responsee.TransactionDate;
-            ViewBag.uthorizationCode = responsee.AuthorizationCode;
-            ViewBag.aymentTypeCode = responsee.PaymentTypeCode;
-            ViewBag.esponseCode = responsee.ResponseCode;
-            ViewBag.nstallmentsAmount = responsee.InstallmentsAmount;
-            ViewBag.nstallmentsNumber = responsee.InstallmentsNumber;
-            ViewBag.alance = responsee.Balance;
             return View();
         }
+        
+        //Pagina si a sido rechazada o algun error
+        public ActionResult ErrorTransaccion(string token_ws)
+        {
+            var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
+            if (token_ws != null)
+            {
+                var response = tx.Commit(token_ws);
+                ViewBag.ResponseCode = response.ResponseCode;
+                return View();
+            }
+            return View();
+        }
+
+
+
         //Obtiene el nombre y apellido a traves del id_paciente en la vista se ve mediante el rut
         //recibe el parametro id_paciente por que literal recibe el id_paciente de @Html.DropDownList
+
         public JsonResult ObtenerNombreApellido(int id_paciente)
+
         {   //define al paciente por su id_paciente(PACIENTE.id_paciente == id_paciente(Parametro obtenido))
             var paciente = db.PACIENTE.FirstOrDefault(p => p.id_paciente == id_paciente);
 
@@ -169,6 +203,7 @@ namespace ClinicaCesfam.Controllers
             {   
                 //define la persona por el id_persona(PERSONA.id_persona == PACIENTE.id_persona)
                 var persona = db.PERSONA.FirstOrDefault(p => p.id_persona == paciente.id_persona);
+
                 //si la persona tiene valor
                 if (persona != null)
                 {

@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "ErrorTransaccion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .body {
+        background-color: #f8f8f8;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #e74c3c;
+    }
+
+    p {
+        color: #555;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .error-icon {
+        font-size: 60px;
+        color: #e74c3c;
+    }
+</style>
+
+<div class="body">
+    <div class="container">
+        <h1><i class="fas fa-exclamation-triangle error-icon"></i> Error de transacción</h1>
+        <p>Ha ocurrido un error en la transacción. Por favor, inténtalo nuevamente más tarde.</p>
+        <h1>Response Code: @ViewBag.ResponseCode</h1>
+    </div>
+</div>

@@ -419,6 +419,8 @@
     <Content Include="Views\ReservaPago\Index.cshtml" />
     <Content Include="Views\ReservaPago\PagoReserva.cshtml" />
     <Content Include="Views\ReservaPago\Comprobante.cshtml" />
+    <Content Include="Views\ReservaPago\Resultado.cshtml" />
+    <Content Include="Views\ReservaPago\ErrorTransaccion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
