@@ -4,58 +4,77 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Hoja de atencion</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ingreso)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_paciente)
-        </th>
-        @*<th style="width:auto;white-space:nowrap;">
-            @Html.DisplayNameFor(model => model.PACIENTE.PERSONA.pnombre)<span> paciente</span>
-        </th>*@
-        <th style="width:auto;white-space:nowrap;">
-            Nombre Paciente
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.observacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_med)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ingreso)
-        </td>
+<div class="col-sm-6">
+    <div style="display: inline-block;">
+        <h1 style="font-family:Candara">Hoja de atención</h1>
+        <a href="@Url.Action("Create")" class="btn btn-outline-dark btn-sm" style="width: 100%">
+            <i class="fas fa-plus-circle"></i><span style="margin-left:5px"> Create New </span>
+        </a>
+    </div>
+</div>
+<br/>
+<table class="table table-hover">
+    <thead class="table-bordered table-secondary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ingreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_paciente)
+            </th>
+            @*<th style="width:auto;white-space:nowrap;">
+                    @Html.DisplayNameFor(model => model.PACIENTE.PERSONA.pnombre)<span> paciente</span>
+                </th>*@
+            <th style="width:auto;white-space:nowrap;">
+                Nombre Paciente
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_med)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-            @Html.DisplayFor(modelItem => item.id_paciente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PACIENTE.PERSONA.pnombre)
-            <span>@Html.DisplayFor(modelItem => item.PACIENTE.PERSONA.appaterno) </span>
-</td>
-        <td>
-            @Html.DisplayFor(modelItem => item.observacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.id_med)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id_hoja }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id_hoja }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id_hoja })
-        </td>
-    </tr>
-}
+                    @Html.DisplayFor(modelItem => item.ingreso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_paciente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PACIENTE.PERSONA.pnombre)
+                    <span>@Html.DisplayFor(modelItem => item.PACIENTE.PERSONA.appaterno) </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.observacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_med)
+                </td>
+                <td style="text-align:center">
+                    <div class="btn-group btn-group-sm" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                            <a href="@Url.Action("Edit", new { id = item.id_hoja })" class="btn btn-sm">Edit </a>
+                        </label>
+                        <label class="btn btn-outline-secondary">
+                            <a href="@Url.Action("Details", new { id = item.id_hoja })" class="btn btn-sm">Details </a>
+                        </label>
+                        <label class="btn btn-outline-danger">
+                            <a href="@Url.Action("Delete", new { id = item.id_hoja })" class="btn btn-sm"> Delete</a>
+                        </label>
+                    </div>
+                    <!--
+                    @Html.ActionLink("Edit", "Edit", new { id=item.id_hoja }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.id_hoja }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.id_hoja })
+                    -->
+                </td>
+            </tr>
+        }
 
 </table>

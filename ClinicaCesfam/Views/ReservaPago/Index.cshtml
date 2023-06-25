@@ -4,31 +4,33 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Medicamentos</h2>
+<h1 style="font-family:Candara">Medicamentos</h1>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nombre_medica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fabricante_medica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.gramaje_medica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.exp_medica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.stock_medica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Precio)
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-hover">
+    <thead class="table-bordered table-secondary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre_medica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fabricante_medica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gramaje_medica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.exp_medica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stock_medica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 
     @foreach (var item in Model)
     {
@@ -52,8 +54,9 @@
                 $@Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
-                @Html.ActionLink("Reserva", "PagoReserva", new { id = item.id_medica }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id_medica })
+                <a class="btn btn-outline-dark" href="@Url.Action("PagoReserva", new { id = item.id_medica })">
+                    Reservar
+                </a>
             </td>
         </tr>
     }

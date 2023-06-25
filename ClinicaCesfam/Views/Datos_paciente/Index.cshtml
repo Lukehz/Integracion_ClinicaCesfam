@@ -4,41 +4,43 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Datos Pacientes</h2>
+<h1 style="font-family:Candara">Datos Pacientes</h1>
 
 @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>*@
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.id_persona)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_paciente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre_Completo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rut)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Enfermedad_Cronica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Enfermedad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Telefono)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Correo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Direccion)
-        </th>
-    </tr>
+<table class="table table-hover">
+    <thead class="table-bordered table-secondary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_persona)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_paciente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre_Completo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enfermedad_Cronica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enfermedad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+        </tr>
+    </thead>
 
     @foreach (var item in Model)
     {
