@@ -3,13 +3,19 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<div class="col-sm-6">
-    <div style="display: inline-block;">
-        <h1 style="font-family:Candara">Medicamentos</h1>
-        <a href="@Url.Action("Create")" class="btn btn-outline-dark btn-sm" style="width: 100%">
-            <i class="fas fa-plus-circle"></i><span style="margin-left:5px"> Create New </span>
-        </a>
+<div class="row">
+    <div class="col-sm-6">
+        <div style="display: inline-block;">
+            <h1 style="font-family:Candara">Medicamentos</h1>
+            <a href="@Url.Action("Create")" class="btn btn-outline-dark btn-sm" style="width: 100%">
+                <i class="fas fa-plus-circle"></i><span style="margin-left:5px"> Create New </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6" style="display: flex;align-items: center;justify-content: flex-end;">
+        <div>
+            <h2 style="font-size:xxx-large;margin: auto;color: #c6cbcf;font-family: none;"><i class="far fa-hospital fa-lg"></i> Clinica <b>CESFAM</b></h2>
+        </div>
     </div>
 </div>
 <br/>

@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>PACIENTE</h4>
         <hr />
@@ -40,18 +40,22 @@
                 @Html.ValidationMessageFor(model => model.id_persona, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <br/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-outline-primary" />
+                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                    Back to List
+                </a>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@*
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -3,16 +3,22 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<div class="col-sm-6">
-    <div style="display: inline-block;">
-        <h1 style="font-family:Candara">Recetas medicas</h1>
-        <a href="@Url.Action("Create")" class="btn btn-outline-dark btn-sm" style="width: 100%">
-            <i class="fas fa-plus-circle"></i><span style="margin-left:5px"> Create New </span>
-        </a>
+<div class="row">
+    <div class="col-sm-6">
+        <div style="display: inline-block;">
+            <h1 style="font-family:Candara">Recetas medicas</h1>
+            <a href="@Url.Action("Create")" class="btn btn-outline-dark btn-sm" style="width: 100%">
+                <i class="fas fa-plus-circle"></i><span style="margin-left:5px"> Create New </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6" style="display: flex;align-items: center;justify-content: flex-end;">
+        <div>
+            <h2 style="font-size:xxx-large;margin: auto;color: #c6cbcf;font-family: none;"><i class="far fa-hospital fa-lg"></i> Clinica <b>CESFAM</b></h2>
+        </div>
     </div>
 </div>
-<br/>
+<br />
 <table class="table table-hover">
     <thead class="table-bordered table-secondary">
         <tr>
@@ -25,35 +31,36 @@
             <th></th>
         </tr>
     </thead>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.HOJA_ATENCION.id_hoja)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MEDICAMENTO.nombre_medica) <span>-</span>
-            @Html.DisplayFor(modelItem => item.MEDICAMENTO.fabricante_medica) <span>-</span>
-            @Html.DisplayFor(modelItem => item.MEDICAMENTO.gramaje_medica)
-        </td>
-        <td style="font-size: smaller;text-align:center">
-            <div class="btn-group btn-group-sm" data-toggle="buttons">
-                <label class="btn btn-outline-primary">
-                    <a href="@Url.Action("Edit", new { id = item.id_receta_medica })" class="btn btn-sm">Edit </a>
-                </label>
-                <label class="btn btn-outline-secondary">
-                    <a href="@Url.Action("Details", new { id = item.id_receta_medica })" class="btn btn-sm">Details </a>
-                </label>
-                <label class="btn btn-outline-danger">
-                    <a href="@Url.Action("Delete", new { id = item.id_receta_medica })" class="btn btn-sm"> Delete</a>
-                </label>
-            </div>
-            <!--
-            @Html.ActionLink("Edit", "Edit", new { id = item.id_receta_medica }) |
-            @Html.ActionLink("Details", "Details", new { id = item.id_receta_medica }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.id_receta_medica })
-            -->
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HOJA_ATENCION.id_hoja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MEDICAMENTO.nombre_medica) <span>-</span>
+                @Html.DisplayFor(modelItem => item.MEDICAMENTO.fabricante_medica) <span>-</span>
+                @Html.DisplayFor(modelItem => item.MEDICAMENTO.gramaje_medica)
+            </td>
+            <td style="font-size: smaller;text-align:center">
+                <div class="btn-group btn-group-sm" data-toggle="buttons">
+                    <label class="btn btn-outline-primary">
+                        <a href="@Url.Action("Edit", new { id = item.id_receta_medica })" class="btn btn-sm">Edit </a>
+                    </label>
+                    <label class="btn btn-outline-secondary">
+                        <a href="@Url.Action("Details", new { id = item.id_receta_medica })" class="btn btn-sm">Details </a>
+                    </label>
+                    <label class="btn btn-outline-danger">
+                        <a href="@Url.Action("Delete", new { id = item.id_receta_medica })" class="btn btn-sm"> Delete</a>
+                    </label>
+                </div>
+                <!--
+                @Html.ActionLink("Edit", "Edit", new { id = item.id_receta_medica }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id_receta_medica }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id_receta_medica })
+                -->
+            </td>
+        </tr>
+        }
 
-</table>
+    </table>

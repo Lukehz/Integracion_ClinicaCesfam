@@ -36,7 +36,18 @@
 
     </dl>
 </div>
+<div class="col-md-offset-2 col-md-10">
+    <a href="@Url.Action("Edit", new { id = Model.id_receta_medica })" class="btn btn-outline-primary" style="width:10%">
+        Edit
+    </a>
+
+    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+        Back to List
+    </a>
+</div>
+@*
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.id_receta_medica }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+*@
