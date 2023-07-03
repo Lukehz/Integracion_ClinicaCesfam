@@ -39,6 +39,13 @@ namespace ClinicaCesfam.Controllers
         // GET: PACIENTEs/Create
         public ActionResult Create()
         {
+            List<SelectListItem> opciones = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "0", Text = "0" },
+                new SelectListItem { Value = "1", Text = "1" }
+            };
+
+            ViewBag.enfermedad_cronica = new SelectList(opciones, "Value", "Text");
             ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "id_persona");
             return View();
         }
@@ -48,16 +55,35 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_paciente,enfermedad_cronica,nombre_enfermedad,id_persona")] PACIENTE pACIENTE)
+        public ActionResult Create([Bind(Include = "enfermedad_cronica,nombre_enfermedad,id_persona")] PACIENTE pACIENTE)
         {
+            if (pACIENTE.enfermedad_cronica == "1")
+            {
+                if (string.IsNullOrEmpty(pACIENTE.nombre_enfermedad))
+                {
+                    ModelState.AddModelError("nombre_enfermedad", "El campo nombre_enfermedad es obligatorio.");
+                }
+            }
+
+            if (db.PACIENTE.Any(m => m.id_persona == pACIENTE.id_persona))
+            {
+                ModelState.AddModelError("id_persona", "El id_persona ya existe.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.PACIENTE.Add(pACIENTE);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            List<SelectListItem> opciones = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "0", Text = "0" },
+                new SelectListItem { Value = "1", Text = "1" }
+            };
 
-            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "dv_run", pACIENTE.id_persona);
+            ViewBag.enfermedad_cronica = new SelectList(opciones, "Value", "Text", pACIENTE.enfermedad_cronica);
+            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "id_persona", pACIENTE.id_persona);
             return View(pACIENTE);
         }
 
@@ -73,6 +99,13 @@ namespace ClinicaCesfam.Controllers
             {
                 return HttpNotFound();
             }
+            List<SelectListItem> opciones = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "0", Text = "0" },
+                new SelectListItem { Value = "1", Text = "1" }
+            };
+
+            ViewBag.enfermedad_cronica = new SelectList(opciones, "Value", "Text", pACIENTE.enfermedad_cronica);
             ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "id_persona", pACIENTE.id_persona);
             return View(pACIENTE);
         }
@@ -84,13 +117,27 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_paciente,enfermedad_cronica,nombre_enfermedad,id_persona")] PACIENTE pACIENTE)
         {
+            if(pACIENTE.enfermedad_cronica == "1")
+            {
+                if (string.IsNullOrEmpty(pACIENTE.nombre_enfermedad))
+                {
+                    ModelState.AddModelError("nombre_enfermedad", "El campo nombre_enfermedad es obligatorio.");
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(pACIENTE).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "dv_run", pACIENTE.id_persona);
+            List<SelectListItem> opciones = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "0", Text = "0" },
+                new SelectListItem { Value = "1", Text = "1" }
+            };
+
+            ViewBag.enfermedad_cronica = new SelectList(opciones, "Value", "Text", pACIENTE.enfermedad_cronica);
+            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "id_persona", pACIENTE.id_persona);
             return View(pACIENTE);
         }
 

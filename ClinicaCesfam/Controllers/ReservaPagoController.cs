@@ -31,7 +31,7 @@ namespace ClinicaCesfam.Controllers
         {
             //el id_paciente inicializa en 1
             RESERVA rESERVA = db.RESERVA.FirstOrDefault(r => r.id_paciente == 1);
-
+            rESERVA.cantidad = 0;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -64,8 +64,12 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
 
         //Create, mas la transaccion Transbank, recibe el total a pagar y sessionid
-        public ActionResult PagoReserva([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA, int? id, int? totalHidden, string usuarioReserva)
+        public ActionResult PagoReserva([Bind(Include = "cantidad,id_paciente,id_medica")] RESERVA rESERVA, int? id, int? totalHidden, string usuarioReserva)
         {
+            if (rESERVA.cantidad <=0)
+            {
+                ModelState.AddModelError("Reserva.cantidad", "El cantidad no puede ser 0 o negativo.");
+            }
             //TRANSBANK
             //Constructor con parametros obtenidos del transbankSdk codigo de comercio, api keys,y integracion.test ".test" especifica que es de testeo.
             //Todo esto es integreacion por eso "Integration...WEBPAY" y "WebpayIntegrationType.Test" de testeo

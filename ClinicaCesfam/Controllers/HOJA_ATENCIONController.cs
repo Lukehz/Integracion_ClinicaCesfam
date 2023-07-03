@@ -42,7 +42,7 @@ namespace ClinicaCesfam.Controllers
             ViewBag.id_med = new SelectList(db.MEDICO, "id_med", "id_med");
             ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente"); 
             //ViewBag.receta = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica");
-            ViewBag.receta = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
+            //ViewBag.receta = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
             return View();
         }
 
@@ -51,8 +51,13 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_hoja,ingreso,observacion,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
+        public ActionResult Create([Bind(Include = "ingreso,observacion,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
         {
+            if (string.IsNullOrEmpty(hOJA_ATENCION.observacion))
+            {
+                ModelState.AddModelError("observacion", "El campo observacion es obligatorio.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.HOJA_ATENCION.Add(hOJA_ATENCION);
@@ -60,8 +65,8 @@ namespace ClinicaCesfam.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_med = new SelectList(db.MEDICO, "id_med", "cargo_med", hOJA_ATENCION.id_med);
-            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "enfermedad_cronica", hOJA_ATENCION.id_paciente);
+            ViewBag.id_med = new SelectList(db.MEDICO, "id_med", "id_med", hOJA_ATENCION.id_med);
+            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente", hOJA_ATENCION.id_paciente);
             return View(hOJA_ATENCION);
         }
 
@@ -79,7 +84,7 @@ namespace ClinicaCesfam.Controllers
             }
             ViewBag.id_med = new SelectList(db.MEDICO, "id_med", "id_med", hOJA_ATENCION.id_med);
             ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente", hOJA_ATENCION.id_paciente);
-            ViewBag.receta = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
+            //ViewBag.receta = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
             return View(hOJA_ATENCION);
         }
 
@@ -90,14 +95,18 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_hoja,ingreso,observacion,id_paciente,id_med")] HOJA_ATENCION hOJA_ATENCION)
         {
+            if (string.IsNullOrEmpty(hOJA_ATENCION.observacion))
+            {
+                ModelState.AddModelError("observacion", "El campo observacion es obligatorio.");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(hOJA_ATENCION).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.id_med = new SelectList(db.MEDICO, "id_med", "cargo_med", hOJA_ATENCION.id_med);
-            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "enfermedad_cronica", hOJA_ATENCION.id_paciente);
+            ViewBag.id_med = new SelectList(db.MEDICO, "id_med", "id_med", hOJA_ATENCION.id_med);
+            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente", hOJA_ATENCION.id_paciente);
             return View(hOJA_ATENCION);
         }
 

@@ -48,8 +48,18 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_med,cargo_med,id_persona")] MEDICO mEDICO)
+        public ActionResult Create([Bind(Include = "cargo_med,id_persona")] MEDICO mEDICO)
         {
+            if (string.IsNullOrEmpty(mEDICO.cargo_med))
+            {
+                ModelState.AddModelError("cargo_med", "El campo cargo_med es obligatorio.");
+            }
+
+            if (db.MEDICO.Any(m => m.id_persona == mEDICO.id_persona))
+            {
+                ModelState.AddModelError("id_persona", "El id_persona ya existe.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.MEDICO.Add(mEDICO);
@@ -57,7 +67,7 @@ namespace ClinicaCesfam.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "dv_run", mEDICO.id_persona);
+            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "id_persona", mEDICO.id_persona);
             return View(mEDICO);
         }
 
@@ -84,13 +94,31 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_med,cargo_med,id_persona")] MEDICO mEDICO)
         {
+            if (string.IsNullOrEmpty(mEDICO.cargo_med))
+            {
+                ModelState.AddModelError("cargo_med", "El campo cargo_med es obligatorio.");
+            }
+            //Busca un registro existente en la tabla MEDICO que cumpla con dos condiciones.
+
+            //Verifica si el campo id_persona seleccionado en el registro actual(que es mEDICO.id_persona).
+            //coincide con el campo id_persona de cualquier otro registro existente en la tabla MEDICO. 
+            //esto indicara que se esta duplicando un elemento.
+
+            //El id_med debe ser diferente al id_med del registro actual. Esto perqmite excluir el registro actual en la búsqueda.
+            //Buscara todos los demas id_persona excepto el id_persona del registro actual.
+            var existingMedico = db.MEDICO.FirstOrDefault(m => m.id_persona == mEDICO.id_persona && m.id_med != mEDICO.id_med);
+            if (existingMedico != null)
+            {
+                ModelState.AddModelError("id_persona", "El id_persona ya está siendo utilizado.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(mEDICO).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "dv_run", mEDICO.id_persona);
+            ViewBag.id_persona = new SelectList(db.PERSONA, "id_persona", "id_persona", mEDICO.id_persona);
             return View(mEDICO);
         }
 

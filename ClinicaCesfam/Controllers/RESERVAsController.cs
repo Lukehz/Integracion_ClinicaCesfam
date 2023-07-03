@@ -50,17 +50,28 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA)
+        public ActionResult Create([Bind(Include = "cantidad,id_paciente,id_medica")] RESERVA rESERVA)
         {
-            if (ModelState.IsValid)
+            if (rESERVA.cantidad > 0)
             {
-                db.RESERVA.Add(rESERVA);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.RESERVA.Add(rESERVA);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                //ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica");
+                ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
+                ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente");
+            }
+            if (rESERVA.cantidad <= 0)
+            {
+                ModelState.AddModelError("cantidad", "La cantidad no puede ser 0 o negativo.");
             }
 
-            ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica", rESERVA.id_medica);
-            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "enfermedad_cronica", rESERVA.id_paciente);
+            //ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica");
+            ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
+            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente", rESERVA.id_paciente);
             return View(rESERVA);
         }
 
@@ -88,14 +99,22 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_reserva,cantidad,id_paciente,id_medica")] RESERVA rESERVA)
         {
-            if (ModelState.IsValid)
+            if (rESERVA.cantidad > 0)
             {
-                db.Entry(rESERVA).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(rESERVA).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica", rESERVA.id_medica);
-            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "enfermedad_cronica", rESERVA.id_paciente);
+            if (rESERVA.cantidad <= 0)
+            {
+                ModelState.AddModelError("cantidad", "La cantidad no puede ser 0 o negativo.");
+            }
+
+            ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
+            ViewBag.id_paciente = new SelectList(db.PACIENTE, "id_paciente", "id_paciente", rESERVA.id_paciente);
             return View(rESERVA);
         }
 

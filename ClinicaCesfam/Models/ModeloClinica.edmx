@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="id_hoja" />
           </Key>
-          <Property Name="id_hoja" Type="int" Nullable="false" />
+          <Property Name="id_hoja" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ingreso" Type="datetime2" Precision="2" Nullable="false" />
           <Property Name="observacion" Type="varchar" MaxLength="2000" Nullable="false" />
           <Property Name="id_paciente" Type="int" Nullable="false" />
@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="id_medica" />
           </Key>
-          <Property Name="id_medica" Type="int" Nullable="false" />
+          <Property Name="id_medica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre_medica" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fabricante_medica" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="gramaje_medica" Type="varchar" MaxLength="50" Nullable="false" />
@@ -31,7 +31,7 @@
           <Key>
             <PropertyRef Name="id_med" />
           </Key>
-          <Property Name="id_med" Type="int" Nullable="false" />
+          <Property Name="id_med" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cargo_med" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="id_persona" Type="int" Nullable="false" />
         </EntityType>
@@ -39,7 +39,7 @@
           <Key>
             <PropertyRef Name="id_paciente" />
           </Key>
-          <Property Name="id_paciente" Type="int" Nullable="false" />
+          <Property Name="id_paciente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="enfermedad_cronica" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="nombre_enfermedad" Type="varchar" MaxLength="50" />
           <Property Name="id_persona" Type="int" Nullable="false" />
@@ -48,7 +48,7 @@
           <Key>
             <PropertyRef Name="id_persona" />
           </Key>
-          <Property Name="id_persona" Type="int" Nullable="false" />
+          <Property Name="id_persona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="numrun" Type="numeric" Precision="8" Scale="0" Nullable="false" />
           <Property Name="dv_run" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="pnombre" Type="varchar" MaxLength="50" Nullable="false" />
@@ -63,7 +63,7 @@
           <Key>
             <PropertyRef Name="id_receta_medica" />
           </Key>
-          <Property Name="id_receta_medica" Type="int" Nullable="false" />
+          <Property Name="id_receta_medica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_hoja" Type="int" Nullable="false" />
           <Property Name="id_medica" Type="int" Nullable="false" />
         </EntityType>
@@ -71,7 +71,7 @@
           <Key>
             <PropertyRef Name="id_reserva" />
           </Key>
-          <Property Name="id_reserva" Type="int" Nullable="false" />
+          <Property Name="id_reserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
           <Property Name="id_paciente" Type="int" Nullable="false" />
           <Property Name="id_medica" Type="int" Nullable="false" />
@@ -632,7 +632,7 @@ advertencia 6002: La tabla o vista 'clinica.dbo.Stock_medicamentos' no tiene def
           <EntitySetMapping Name="MEDICAMENTO">
             <EntityTypeMapping TypeName="clinicaModel.MEDICAMENTO">
               <MappingFragment StoreEntitySet="MEDICAMENTO">
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="id_medica" ColumnName="id_medica" />
                 <ScalarProperty Name="nombre_medica" ColumnName="nombre_medica" />
                 <ScalarProperty Name="fabricante_medica" ColumnName="fabricante_medica" />

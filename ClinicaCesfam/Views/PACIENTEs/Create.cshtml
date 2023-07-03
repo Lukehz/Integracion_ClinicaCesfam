@@ -16,17 +16,9 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.id_paciente, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.id_paciente, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.id_paciente, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.enfermedad_cronica, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.enfermedad_cronica, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("enfermedad_cronica", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.enfermedad_cronica, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,3 +58,32 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<!--Bibloteca de jquery para habilitar y desabilitar campo -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Funcion para verificar y deshabilitar el campo nombre_enfermedad
+        function verificarEnfermedadCronica() {
+            var enfermedadCronica = $('#enfermedad_cronica').val();
+            var nombreEnfermedad = $('#nombre_enfermedad');
+
+            // Si el valor es 0 se
+            if (enfermedadCronica === '0') {
+                // Deshabilita el campo nombre_enfermedad
+                nombreEnfermedad.prop('disabled', true);
+            } else {
+                // Habilita el campo nombre_enfermedad
+                nombreEnfermedad.prop('disabled', false);
+            }
+        }
+
+        // Verifica y deshabilita el campo al cargar la pagina dependiendo del valor enfermeda_cronica
+        verificarEnfermedadCronica();
+
+        // Maneja el evento change de enfermedad_cronica
+        $('#enfermedad_cronica').change(function () {
+            verificarEnfermedadCronica();
+        });
+    });
+</script>

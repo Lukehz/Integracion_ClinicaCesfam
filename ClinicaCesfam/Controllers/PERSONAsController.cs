@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClinicaCesfam.Models;
+//para el verificar el correo
+using System.Text.RegularExpressions;
 
 namespace ClinicaCesfam.Controllers
 {
@@ -46,8 +48,72 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_persona,numrun,dv_run,pnombre,snombre,appaterno,apmaterno,direccion,correo,telefono")] PERSONA pERSONA)
+        public ActionResult Create([Bind(Include = "numrun,dv_run,pnombre,snombre,appaterno,apmaterno,direccion,correo,telefono")] PERSONA pERSONA)
         {
+            //ALERTAS SI SE LLENAN MAL LOS CAMPOS O ESTAN VACIOS.
+            //obtiene el largo de numrun para ver si es valio o no.
+            string numrunString = pERSONA.numrun.ToString();
+            if (7 > numrunString.Length || numrunString.Length > 8)
+            {
+                if (pERSONA.numrun <= 0)
+                {
+                    ModelState.AddModelError("numrun", "El numrun no puede ser 0 o negativo.");
+                }
+                ModelState.AddModelError("numrun", "El numrun no es valido");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.dv_run))
+            {
+                ModelState.AddModelError("dv_run", "El campo dv_run es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.pnombre))
+            {
+                ModelState.AddModelError("pnombre", "El campo pnombre es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.snombre))
+            {
+                ModelState.AddModelError("snombre", "El campo snombre es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.appaterno))
+            {
+                ModelState.AddModelError("appaterno", "El campo appaterno es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.apmaterno))
+            {
+                ModelState.AddModelError("apmaterno", "El campo apmaterno es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.direccion))
+            {
+                ModelState.AddModelError("direccion", "El campo direccion es obligatorio.");
+            }
+
+            //Correo Electronico
+            if (string.IsNullOrEmpty(pERSONA.correo))
+            {
+                ModelState.AddModelError("correo", "El campo correo es obligatorio.");
+            }
+            //validar formato de correo a travez de la clase "using System.Text.RegularExpressions;"
+            if (!Regex.IsMatch(pERSONA.correo ?? string.Empty, @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"))
+            {
+                ModelState.AddModelError("correo", "El campo correo debe tener un formato válido.");
+            }
+
+            //obtiene el largo de telefono para ver si es valio o no.
+            string telefonoString = pERSONA.telefono.ToString();
+            if (telefonoString.Length != 9)
+            {
+                if (pERSONA.telefono <= 0)
+                {
+                    ModelState.AddModelError("telefono", "El telefono no puede ser 0 o negativo.");
+                }
+                ModelState.AddModelError("telefono", "El telefono no es valido formato: '912345678'");
+            }
+
             if (ModelState.IsValid)
             {
                 db.PERSONA.Add(pERSONA);
@@ -80,6 +146,70 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_persona,numrun,dv_run,pnombre,snombre,appaterno,apmaterno,direccion,correo,telefono")] PERSONA pERSONA)
         {
+            //ALERTAS SI SE LLENAN MAL LOS CAMPOS O ESTAN VACIOS.
+            //obtiene el largo de numrun para ver si es valio o no.
+            string numrunString = pERSONA.numrun.ToString();
+            if (7 > numrunString.Length || numrunString.Length > 8)
+            {
+                if (pERSONA.numrun <= 0)
+                {
+                    ModelState.AddModelError("numrun", "El numrun no puede ser 0 o negativo.");
+                }
+                ModelState.AddModelError("numrun", "El numrun no es valido");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.dv_run))
+            {
+                ModelState.AddModelError("dv_run", "El campo dv_run es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.pnombre))
+            {
+                ModelState.AddModelError("pnombre", "El campo pnombre es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.snombre))
+            {
+                ModelState.AddModelError("snombre", "El campo snombre es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.appaterno))
+            {
+                ModelState.AddModelError("appaterno", "El campo appaterno es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.apmaterno))
+            {
+                ModelState.AddModelError("apmaterno", "El campo apmaterno es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(pERSONA.direccion))
+            {
+                ModelState.AddModelError("direccion", "El campo direccion es obligatorio.");
+            }
+
+            //Correo Electronico
+            if (string.IsNullOrEmpty(pERSONA.correo))
+            {
+                ModelState.AddModelError("correo", "El campo correo es obligatorio.");
+            }
+            //validar formato de correo a travez de la clase "using System.Text.RegularExpressions;"
+            if (!Regex.IsMatch(pERSONA.correo ?? string.Empty, @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"))
+            {
+                ModelState.AddModelError("correo", "El campo correo debe tener un formato válido.");
+            }
+
+            //obtiene el largo de telefono para ver si es valio o no.
+            string telefonoString = pERSONA.telefono.ToString();
+            if (telefonoString.Length != 9)
+            {
+                if (pERSONA.telefono <= 0)
+                {
+                    ModelState.AddModelError("telefono", "El telefono no puede ser 0 o negativo.");
+                }
+                ModelState.AddModelError("telefono", "El telefono no es valido formato: '912345678'");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(pERSONA).State = EntityState.Modified;

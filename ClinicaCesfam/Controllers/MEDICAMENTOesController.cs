@@ -46,14 +46,43 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_medica,nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica,precio")] MEDICAMENTO mEDICAMENTO)
+        public ActionResult Create([Bind(Include = "nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica,precio")] MEDICAMENTO mEDICAMENTO)
         {
-            if (ModelState.IsValid)
+            if (mEDICAMENTO.stock_medica > 0)
             {
-                db.MEDICAMENTO.Add(mEDICAMENTO);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (mEDICAMENTO.Precio >0)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.MEDICAMENTO.Add(mEDICAMENTO);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
             }
+            if (string.IsNullOrEmpty(mEDICAMENTO.nombre_medica))
+            {
+                ModelState.AddModelError("nombre_medica", "El campo nombre_medica es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(mEDICAMENTO.fabricante_medica))
+            {
+                ModelState.AddModelError("fabricante_medica", "El campo fabricante_medica es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(mEDICAMENTO.gramaje_medica))
+            {
+                ModelState.AddModelError("gramaje_medica", "El campo gramaje_medica es obligatorio.");
+            }
+            if (mEDICAMENTO.stock_medica <= 0)
+            {
+                ModelState.AddModelError("stock_medica", "El stock_medica no puede ser 0 o negativo.");
+            }
+            if (mEDICAMENTO.Precio <= 0)
+            {
+                ModelState.AddModelError("Precio", "El Precio no puede ser 0 o negativo.");
+            }
+
 
             return View(mEDICAMENTO);
         }
@@ -80,6 +109,30 @@ namespace ClinicaCesfam.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_medica,nombre_medica,fabricante_medica,gramaje_medica,exp_medica,stock_medica,precio")] MEDICAMENTO mEDICAMENTO)
         {
+            if (string.IsNullOrEmpty(mEDICAMENTO.nombre_medica))
+            {
+                ModelState.AddModelError("nombre_medica", "El campo nombre_medica es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(mEDICAMENTO.fabricante_medica))
+            {
+                ModelState.AddModelError("fabricante_medica", "El campo fabricante_medica es obligatorio.");
+            }
+
+            if (string.IsNullOrEmpty(mEDICAMENTO.gramaje_medica))
+            {
+                ModelState.AddModelError("gramaje_medica", "El campo gramaje_medica es obligatorio.");
+            }
+
+            if (mEDICAMENTO.stock_medica <= 0)
+            {
+                ModelState.AddModelError("stock_medica", "El stock_medica no puede ser 0 o negativo.");
+            }
+            if (mEDICAMENTO.Precio <= 0)
+            {
+                ModelState.AddModelError("Precio", "El Precio no puede ser 0 o negativo.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(mEDICAMENTO).State = EntityState.Modified;

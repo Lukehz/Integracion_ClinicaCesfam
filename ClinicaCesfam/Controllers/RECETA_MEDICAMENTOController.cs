@@ -50,7 +50,7 @@ namespace ClinicaCesfam.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_receta_medica,id_hoja,id_medica")] RECETA_MEDICAMENTO rECETA_MEDICAMENTO)
+        public ActionResult Create([Bind(Include = "id_hoja,id_medica")] RECETA_MEDICAMENTO rECETA_MEDICAMENTO)
         {
             if (ModelState.IsValid)
             {
@@ -59,8 +59,9 @@ namespace ClinicaCesfam.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_hoja = new SelectList(db.HOJA_ATENCION, "id_hoja", "observacion", rECETA_MEDICAMENTO.id_hoja);
-            ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica", rECETA_MEDICAMENTO.id_medica);
+            ViewBag.id_hoja = new SelectList(db.HOJA_ATENCION, "id_hoja", "id_hoja", rECETA_MEDICAMENTO.id_hoja);
+            //ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "id_medica", rECETA_MEDICAMENTO.id_medica);
+            ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
             return View(rECETA_MEDICAMENTO);
         }
 
@@ -95,8 +96,9 @@ namespace ClinicaCesfam.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.id_hoja = new SelectList(db.HOJA_ATENCION, "id_hoja", "observacion", rECETA_MEDICAMENTO.id_hoja);
-            ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica", rECETA_MEDICAMENTO.id_medica);
+            ViewBag.id_hoja = new SelectList(db.HOJA_ATENCION, "id_hoja", "id_hoja", rECETA_MEDICAMENTO.id_hoja);
+            //ViewBag.id_medica = new SelectList(db.MEDICAMENTO, "id_medica", "nombre_medica", rECETA_MEDICAMENTO.id_medica);
+            ViewBag.id_medica = new SelectList(db.MEDICAMENTO.Select(m => new { id_medica = m.id_medica, nombre_medica = m.nombre_medica + " - " + m.fabricante_medica + " - " + m.gramaje_medica }), "id_medica", "nombre_medica");
             return View(rECETA_MEDICAMENTO);
         }
 
