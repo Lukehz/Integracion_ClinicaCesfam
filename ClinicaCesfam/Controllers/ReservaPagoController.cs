@@ -136,7 +136,7 @@ namespace ClinicaCesfam.Controllers
             {
                 var response = tx.Commit(token_ws);
 
-                // Transaccion exitosa
+                // TRANSACCION EXITOSA
                 if (response.ResponseCode == 0)
                 {
                     var reserva = TempData["reserva"] as RESERVA;
@@ -145,25 +145,60 @@ namespace ClinicaCesfam.Controllers
                     return RedirectToAction("Comprobante", new { token_ws = token_ws });
                 }
                 // Manejar el caso en que reserva sea null si es necesario
+                //TRANSACCION RECHZADA
                 else if (response.ResponseCode != 0)
                 {
                     // Ocurrió un problema durante la transacción, redirigir a la página de error
-                    return RedirectToAction("ErrorTransaccion", new { token_ws = token_ws });
+                    return RedirectToAction("TransaccionRechazada", new { token_ws = token_ws });
                 }
+            }
+            //ERROR TRANSACCION
+            if (token_ws == null)
+            {
+                //el token_ws lo modifique para que sea "1", para que en la pagina ErrorTransaccion responda solamente a "1"
+                //lo que significa que si se hizo una transaccion pero fue anulada o se produjo un error
+                //para asi cuando alguien busque mediante url ReservaPago/ErrorTransaccion no pueda ver la pagina al menos que 
+                //haya anulado la transaccion o tuviera un problema en el transcurso de esta
+                return RedirectToAction("ErrorTransaccion", new { token_ws = "1" });
             }
 
             // Error o Transaccion rechazada
-            return View("ErrorTransaccion");
+            //antes
+            //return View("TransaccionRechazada");
+            //depues
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            //se elimino "return View("TransaccionRechazada");" por que si buscaba por URL ReservaPago/Resultado me llevaba si o si a la pagina de "TransaccionRechazada" aunque no hubiera transaccion
+            //esta pagina si o si sirve para deribar a la pagina con el resultado correcto dependiendo de si la transaccion fue realizada con exito o no.
+            //ahora esta pagina mostraria el error de HTTP Error 400.0 - Bad Request
         }
 
         //Pagina si a sido exitosa
         public ActionResult Comprobante(string token_ws)
         {
+            if (token_ws == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
             var response = tx.Commit(token_ws);
 
+            if (response.Vci == "TSY")
+            {
+                ViewBag.Vci = ("Autenticación Exitosa");
+            }
+
+            if (response.Vci == "TSN")
+            {
+                ViewBag.Vci = ("Autenticación Rechazada");
+            }
+
+
+
+
+
             //este es del commit
-            ViewBag.Vci = response.Vci;
+            //ViewBag.Vci = response.Vci;
             ViewBag.Amount = response.Amount;
             ViewBag.Status = response.Status;
             ViewBag.BuyOrder = response.BuyOrder;
@@ -172,25 +207,97 @@ namespace ClinicaCesfam.Controllers
             ViewBag.AccountingDate = response.AccountingDate;
             ViewBag.TransactionDate = response.TransactionDate;
             ViewBag.AuthorizationCode = response.AuthorizationCode;
-            ViewBag.PaymentTypeCode = response.PaymentTypeCode;
-            ViewBag.ResponseCode = response.ResponseCode;
+
+            if (response.PaymentTypeCode == "VD")
+            {
+                ViewBag.PaymentTypeCode = ("Venta Débito");
+            }
+
+            if (response.PaymentTypeCode == "VN")
+            {
+                ViewBag.PaymentTypeCode = ("Venta Normal");
+            }
+
+            if (response.PaymentTypeCode == "VC")
+            {
+                ViewBag.PaymentTypeCode = ("Venta en cuotas");
+            }
+
+            if (response.PaymentTypeCode == "SI")
+            {
+                ViewBag.PaymentTypeCode = ("3 cuotas sin interés");
+            }
+
+            if (response.PaymentTypeCode == "S2")
+            {
+                ViewBag.PaymentTypeCode = ("2 cuotas sin interés");
+            }
+
+            if (response.PaymentTypeCode == "NC")
+            {
+                ViewBag.PaymentTypeCode = ("N Cuotas sin interés");
+            }
+
+            if (response.PaymentTypeCode == "VP")
+            {
+                ViewBag.PaymentTypeCode = ("Venta Prepago");
+            }
+
+            //ViewBag.PaymentTypeCode = response.PaymentTypeCode;
+
+            if (response.ResponseCode == 0)
+            {
+                ViewBag.ResponseCode = ("Transacción aprobada");
+            }
+
+            if (response.ResponseCode == -1)
+            {
+                ViewBag.ResponseCode = ("Transacción rechazada");
+            }
+
+            //ViewBag.ResponseCode = response.ResponseCode;
             ViewBag.InstallmentsAmount = response.InstallmentsAmount;
             ViewBag.InstallmentsNumber = response.InstallmentsNumber;
             ViewBag.Balance = response.Balance;
             return View();
         }
         
-        //Pagina si a sido rechazada o algun error
-        public ActionResult ErrorTransaccion(string token_ws)
+        //Pagina si a sido rechazada
+        public ActionResult TransaccionRechazada(string token_ws)
         {
             var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
+            //si existe token_ws es por que se creo y termino la transaccion y el token en este caso si o si deberia ser -1
+            //lo que significa que fue una transaccion rechazada
             if (token_ws != null)
             {
                 var response = tx.Commit(token_ws);
-                ViewBag.ResponseCode = response.ResponseCode;
+                if (response.ResponseCode == -1)
+                {
+                    ViewBag.ResponseCode = ("Transacción rechazada");
+                }
                 return View();
             }
-            return View();
+            //se elimino "return View();" por que si buscaba por URL ReservaPago/TransaccionRechazada me llevaba si o si a la pagina de "TransaccionRechazada" aunque no hubiera transaccion
+            //esta pagina es solamente para cuando se hace un pago y es rechazado, si se busca ReservaPago/TransaccionRechazada mediante url 
+            //mostrara el error de HTTP Error 400.0 - Bad Request
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        //Pagina si a habido un error o anulacion
+        public ActionResult ErrorTransaccion(string token_ws)
+        {
+            var tx = new Transaction(new Options(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test));
+            //si NO existe token_ws es por que se produjo un error o anulacion en medio de la transaccion.
+            //el token deberia ser nulo
+            //lo que significa que hubo un error o se anulo la transaccion
+            if (token_ws == "1")
+            {
+                return View();
+            }
+            //se elimino "return View();" por que si se buscaba por URL ReservaPago/ErrorTransaccion me llevaba si o si a la pagina de "ErrorTransaccion" aunque no hubiera transaccion
+            //esta pagina es solamente para cuando se hace un pago y es anulado o se produce un error en medio de la transaccion, si se busca ReservaPago/ErrorTransaccion mediante url 
+            //mostrara el error de HTTP Error 400.0 - Bad Request
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
 
@@ -198,27 +305,18 @@ namespace ClinicaCesfam.Controllers
         //Obtiene el nombre y apellido a traves del id_paciente en la vista se ve mediante el rut
         //recibe el parametro id_paciente por que literal recibe el id_paciente de @Html.DropDownList
 
-        public JsonResult ObtenerNombreApellido(int id_paciente)
+        public ActionResult ObtenerNombreApellido(int id_paciente)
 
         {   //define al paciente por su id_paciente(PACIENTE.id_paciente == id_paciente(Parametro obtenido))
             var paciente = db.PACIENTE.FirstOrDefault(p => p.id_paciente == id_paciente);
+            //define la persona por el id_persona(PERSONA.id_persona == PACIENTE.id_persona)
+            var persona = db.PERSONA.FirstOrDefault(p => p.id_persona == paciente.id_persona);
 
-            if (paciente != null)
-            {   
-                //define la persona por el id_persona(PERSONA.id_persona == PACIENTE.id_persona)
-                var persona = db.PERSONA.FirstOrDefault(p => p.id_persona == paciente.id_persona);
+            //Concatena nombre y apellido
+            string nombreApellido = persona.pnombre + " " + persona.appaterno;
+            //retorna el nombre concatenado
+            return Content(nombreApellido);
 
-                //si la persona tiene valor
-                if (persona != null)
-                {
-                    //Concatena nombre y apellido
-                    string nombreApellido = persona.pnombre + " " + persona.appaterno;
-                    //retorna el nombre mediante json
-                    return Json(nombreApellido, JsonRequestBehavior.AllowGet);
-                }
-            }
-            //no devuelve nada
-            return Json(null, JsonRequestBehavior.AllowGet);
         }
     }
 }

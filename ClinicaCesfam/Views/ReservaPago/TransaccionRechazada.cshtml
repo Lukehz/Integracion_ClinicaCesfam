@@ -1,13 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "ErrorTransaccion";
+    ViewBag.Title = "TransaccionRechazada";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <style>
     .body {
-        background-color: #fffde7;
+        background-color: #ffebee;
         font-family: Arial, sans-serif;
         text-align: center;
         padding: 20px;
@@ -15,7 +15,7 @@
     }
 
     h1 {
-        color: #ffc107;
+        color: #e74c3c;
     }
 
     p {
@@ -33,15 +33,16 @@
         filter: drop-shadow(0px 10px 5px rgba(0, 0, 0, 0.7));
         max-height: 100%;
     }
+
 </style>
 
 <div class="body">
-    <h1><i class="fas fa-exclamation-triangle error-icon"></i></h1>
-    <h1>Error de transacción</h1>
-    <p>Ha ocurrido un error en la transacción. Por favor, inténtalo nuevamente más tarde.</p>
+    <h1><i class="fas fa-exclamation-triangle fa-lg"></i></h1>
+    <h1>Transacción rechazada</h1>
+    <p>La transacción ha sido rechazada. Por favor, revisa la información proporcionada e inténtalo nuevamente.</p>
 </div>
 <div class="container">
-    <img src="~/Images/pago_error.png" />
+    <img src="~/Images/pago_rechazado.png" />
 </div>
 
 

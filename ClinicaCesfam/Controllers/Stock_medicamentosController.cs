@@ -19,7 +19,7 @@ namespace ClinicaCesfam.Controllers
         {
             return View(db.Stock_medicamentos.ToList());
         }
-
+        /*
         // GET: Stock_medicamentos/Details/5
         public ActionResult Details(int? id)
         {
@@ -122,6 +122,6 @@ namespace ClinicaCesfam.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }*/
     }
 }

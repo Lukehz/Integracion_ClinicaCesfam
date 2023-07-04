@@ -265,6 +265,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\money.png" />
+    <Content Include="Images\pago_aprobado.png" />
+    <Content Include="Images\pago_error.png" />
+    <Content Include="Images\pago_rechazado.png" />
     <Content Include="Models\ModeloClinica.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ModeloClinica.Context.cs</LastGenOutput>
@@ -366,25 +370,13 @@
     <Content Include="Views\Medicos\Details.cshtml" />
     <Content Include="Views\Medicos\Edit.cshtml" />
     <Content Include="Views\Medicos\Index.cshtml" />
-    <Content Include="Views\Datos_paciente\Create.cshtml" />
-    <Content Include="Views\Datos_paciente\Delete.cshtml" />
-    <Content Include="Views\Datos_paciente\Details.cshtml" />
-    <Content Include="Views\Datos_paciente\Edit.cshtml" />
     <Content Include="Views\Datos_paciente\Index.cshtml" />
-    <Content Include="Views\Datos_medico\Create.cshtml" />
-    <Content Include="Views\Datos_medico\Delete.cshtml" />
-    <Content Include="Views\Datos_medico\Details.cshtml" />
-    <Content Include="Views\Datos_medico\Edit.cshtml" />
     <Content Include="Views\Datos_medico\Index.cshtml" />
     <Content Include="Views\MEDICAMENTOes\Create.cshtml" />
     <Content Include="Views\MEDICAMENTOes\Delete.cshtml" />
     <Content Include="Views\MEDICAMENTOes\Details.cshtml" />
     <Content Include="Views\MEDICAMENTOes\Edit.cshtml" />
     <Content Include="Views\MEDICAMENTOes\Index.cshtml" />
-    <Content Include="Views\Stock_medicamentos\Create.cshtml" />
-    <Content Include="Views\Stock_medicamentos\Delete.cshtml" />
-    <Content Include="Views\Stock_medicamentos\Details.cshtml" />
-    <Content Include="Views\Stock_medicamentos\Edit.cshtml" />
     <Content Include="Views\Stock_medicamentos\Index.cshtml" />
     <Content Include="Views\RESERVAs\Create.cshtml" />
     <Content Include="Views\RESERVAs\Delete.cshtml" />
@@ -420,6 +412,7 @@
     <Content Include="Views\ReservaPago\PagoReserva.cshtml" />
     <Content Include="Views\ReservaPago\Comprobante.cshtml" />
     <Content Include="Views\ReservaPago\Resultado.cshtml" />
+    <Content Include="Views\ReservaPago\TransaccionRechazada.cshtml" />
     <Content Include="Views\ReservaPago\ErrorTransaccion.cshtml" />
   </ItemGroup>
   <ItemGroup>

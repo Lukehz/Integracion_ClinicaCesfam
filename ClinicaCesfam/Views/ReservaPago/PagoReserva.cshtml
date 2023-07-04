@@ -192,5 +192,46 @@
     Envia el precio unitario del medicamento    
 -->
 <script>
+    //envia el valor del precio del medicamento al archivo js mediante variable
     var precioMedicamento = @Html.Raw(Json.Encode(Model.Medicamento.Precio));
+</script>
+<script>
+    // Obtener el elemento <span> por su ID el id="nombreApellido"
+    var nombreApellidoElement = document.getElementById("nombreApellido");
+
+    // Obtener el campo oculto por su ID
+    var usuarioReservaElement = document.getElementById("usuarioReserva");
+
+    // Función para actualizar el nombre concatenado con el apellido
+    function actualizarNombre() {
+        // Obtener el valor seleccionado del DropDownList
+        var id_paciente = document.getElementById("id_paciente").value;
+
+        // Realizar una solicitud AJAX para obtener el nombre concatenado desde la base de datos
+        var xhr = new XMLHttpRequest();
+        // Mediante el metodo de ObtenerNombreApellido(donde se hacen los inner join correspondient para concatenar el nombre y apellido)
+        // Ruta donde se consigue el nombre concatenado lo obtiene mediante "GET" y se filtra por el id_paciente 
+        xhr.open("GET", "/ReservaPago/ObtenerNombreApellido?id_paciente=" + id_paciente, true);
+        // funcion de "Devolucion de llamado" se ejecutara cuando cambie la solicitud del AJAX
+        xhr.onreadystatechange = function () {
+            //xhr.readyState: hace referencia al estado 4 significa: estado completado
+            //xhr.status: hace referecia si fue exitoso o no por ejemplo: http:200(exitoso). http:404(error). http:500(eror interno servidor)
+            //Si es cumple las condiciones actualiza en nombre concatenado
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Actualiza el contenido del elemento <span> con el nombre concatenado
+                nombreApellidoElement.textContent = xhr.responseText;
+
+                // Actualizar el valor del campo oculto con el nombre concatenado
+                usuarioReservaElement.value = xhr.responseText;
+            }
+        };
+        //se envia la solicitud
+        xhr.send();
+    }
+
+    // Llamar a la función actualizarNombre al cargar la página(para que no se pierda el nombre, para que el campo no este vacio)
+    window.onload = actualizarNombre;
+
+    // Llama a la función actualizarNombre cuando se seleccione una opción diferente en el DropDownList
+    document.getElementById("id_paciente").addEventListener("change", actualizarNombre);
 </script>
