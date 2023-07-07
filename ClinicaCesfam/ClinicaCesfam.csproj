@@ -265,10 +265,18 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\doctor.png" />
+    <Content Include="Images\farmaco.png" />
+    <Content Include="Images\lesion.png" />
+    <Content Include="Images\medicamento.png" />
     <Content Include="Images\money.png" />
+    <Content Include="Images\paciente.png" />
     <Content Include="Images\pago_aprobado.png" />
     <Content Include="Images\pago_error.png" />
     <Content Include="Images\pago_rechazado.png" />
+    <Content Include="Images\pastillas.png" />
+    <Content Include="Images\simbolo.png" />
+    <Content Include="Images\user-injured-solid.svg" />
     <Content Include="Models\ModeloClinica.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ModeloClinica.Context.cs</LastGenOutput>

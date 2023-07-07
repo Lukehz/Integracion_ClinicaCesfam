@@ -8,28 +8,22 @@
 <h1 style="text-align:center;font-family:Candara">Pago Reserva</h1>
 
 <style>
-    .jumbotron {
-        
-        background-image: url(https://www.alert-software.com/hs-fs/hubfs/it%20department%20hospital.png?width=1280&name=it%20department%20hospital.png);
-        background-size:contain
-    }
     .table-container {
+        background-color: #e8f5e9;
         display: flex;
-        justify-content:center;
-        align-items: center;
-        text-align: center;
+        flex-wrap: nowrap;
+        justify-content: space-around;
     }
 
     table {
         background-color: white;
         display: flex;
-        border-radius: 20px;
         margin: 10px;
         border-collapse: collapse;
         border-radius: 20px;
         border: 2px solid black;
-        overflow: hidden;
         box-shadow: 0px 0px 50px #00ff0045;
+        overflow:hidden;
     }
 
     th, td {
@@ -45,12 +39,26 @@
     .col-md-10 {
         margin: auto;
     }
+
+    .imagenes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    img {
+        width: 60%;
+        filter: drop-shadow(0px 10px 5px rgba(0, 0, 0, 0.7));
+    }
 </style>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="jumbotron">
         <div class="table-container">
+            <div class="imagenes">
+                <img src="~/Images/medicamento.png" alt="medicamento"/>
+            </div>
             <table>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <tr>
@@ -59,109 +67,129 @@
                 </tr>
                 <tr>
                     <td>
-                        <dt>
-                            Nombre Medicamento
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Medicamento.nombre_medica)
-                        </dd>
+                        <dl>
+                            <dt>
+                                Nombre Medicamento
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Medicamento.nombre_medica)
+                            </dd>
+                        </dl>
                     </td>
                     <td>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <dt>
-                            Fabricante
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Medicamento.fabricante_medica)
-                        </dd>
+                        <dl>
+                            <dt>
+                                Fabricante
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Medicamento.fabricante_medica)
+                            </dd>
+                        </dl>
                     </td>
                     <td>
-                        <dt>
-                        </dt>
-                        <dd>
-                        </dd>
+                        <dl>
+                            <dt>
+                            </dt>
+                            <dd>
+                            </dd>
+                        </dl>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <dt>
-                            Gramaje
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Medicamento.gramaje_medica)
-                        </dd>
+                        <dl>
+                            <dt>
+                                Gramaje
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Medicamento.gramaje_medica)
+                            </dd>
+                        </dl>
                     </td>
                     <td>
-                        <dt>
-                            Rut del paciente
-                        </dt>
-                        <dd>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Reserva.id_paciente, "", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Reserva.id_paciente", ViewBag.id_paciente as SelectList, htmlAttributes: new { @class = "form-control", id = "id_paciente" })
-                                    @Html.ValidationMessageFor(model => model.Reserva.id_paciente, "", new { @class = "text-danger" })
+                        <dl>
+                            <dt>
+                                Rut del paciente
+                            </dt>
+                            <dd>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Reserva.id_paciente, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("Reserva.id_paciente", ViewBag.id_paciente as SelectList, htmlAttributes: new { @class = "form-control", id = "id_paciente" })
+                                        @Html.ValidationMessageFor(model => model.Reserva.id_paciente, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                        </dd>
+                            </dd>
+                        </dl>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <dt>
-                            Fecha de vencimiento
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Medicamento.exp_medica)
-                        </dd>
+                        <dl>
+                            <dt>
+                                Fecha de vencimiento
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Medicamento.exp_medica)
+                            </dd>
+                        </dl>
                     <td>
-                        <dt>
-                            Reservante
-                        </dt>
-                        <dd>
-                            <div class="form-control">
-                                <span id="nombreApellido"></span>
-                            </div>
-                        </dd>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <dt>
-                            Precio Unitario
-                        </dt>
-                        <dd>
-                            $@Html.DisplayFor(model => model.Medicamento.Precio)
-                        </dd>
-                    </td>
-                    <td>
-                        <dt>
-                            Cantidad
-                        </dt>
-                        <dd>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Reserva.cantidad, "", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Reserva.cantidad, new { htmlAttributes = new { @class = "form-control", id = "cantidad" } })
-                                    @Html.ValidationMessageFor(model => model.Reserva.cantidad, "", new { @class = "text-danger" })
+                        <dl>
+                            <dt>
+                                Reservante
+                            </dt>
+                            <dd>
+                                <div class="form-control">
+                                    <span id="nombreApellido"></span>
                                 </div>
-                            </div>
-                        </dd>
+                            </dd>
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <dl>
+                            <dt>
+                                Precio Unitario
+                            </dt>
+                            <dd>
+                                $@Html.DisplayFor(model => model.Medicamento.Precio)
+                            </dd>
+                        </dl>
+                    </td>
+                    <td>
+                        <dl>
+                            <dt>
+                                Cantidad
+                            </dt>
+                            <dd>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Reserva.cantidad, "", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Reserva.cantidad, new { htmlAttributes = new { @class = "form-control", id = "cantidad" } })
+                                        @Html.ValidationMessageFor(model => model.Reserva.cantidad, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </dd>
+                        </dl>
                     </td>
                 </tr>
                 <tr>
                     <th colspan="2">
-                        <dt>
-                            Total a pagar
-                        </dt>
-                        <dd>
-                            <div class="form-control">
-                                $<span name="total" id="total"></span>
-                            </div>
-                        </dd>
+                        <dl>
+                            <dt>
+                                Total a pagar
+                            </dt>
+                            <dd>
+                                <div class="form-control">
+                                    $<span name="total" id="total"></span>
+                                </div>
+                            </dd>
+                        </dl>
                     </th>
                 </tr>
                 <tr>
@@ -175,6 +203,9 @@
                     </th>
                 </tr>
             </table>
+            <div class="imagenes">
+                <img src="~/Images/lesion.png" alt="lesion"/>
+            </div>
         </div>
     </div>
 }

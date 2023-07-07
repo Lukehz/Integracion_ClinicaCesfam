@@ -1,31 +1,122 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<ClinicaCesfam.Models.Stock_medicamentos>
+@{
+    ViewBag.Title = "Inicio";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="jumbotron" style="text-align:center;font-family:'Times New Roman', Times, serif">
+    <h1>BIENVENIDO</h1>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<style>
+    .tarjetas {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .card {
+        align-self: center;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    img {
+        filter: drop-shadow(0px 10px 5px rgba(0, 0, 0, 0.7));
+    }
+</style>
+
+<div class="tarjetas">
+    <div class="card bg-warning" style="max-width: 18rem;">
+        <div class="card-header" style="text-align:center;">
+            <h5 class="card-title">Pacientes</h5>
+        </div>
+        <div style=" display: flex; align-items: center; ">
+            <div class="col-md-4" style=" text-align: center; width: 50%; height: 50%; ">
+                <img src="~/Images/paciente.png" class="img-fluid rounded-start" alt="..." style="width:65%">
+            </div>
+            <div class="col-md-8 card-body" style="text-align:center;width:100%;">
+                <p class="card-text" style="font-weight: 500;">Numero de paciente registrados:<br /><strong>@ViewBag.pacientes</strong></p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="card bg-info" style="max-width: 18rem;">
+        <div class="card-header" style="text-align:center;">
+            <h5 class="card-title">Inventario</h5>
+        </div>
+        <div style=" display: flex; align-items: center; ">
+            <div class="col-md-4" style=" text-align: center; width: 50%; height: 50%; ">
+                <img src="~/Images/pastillas.png" class="img-fluid rounded-start" alt="..." style="width:65%">
+            </div>
+            <div class="col-md-8 card-body" style="text-align:center;width:100%;">
+                <p class="card-text" style="font-weight: 500;">Numero de medicamentos registrados:<br /><strong>@ViewBag.medicamentos</strong></p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="card bg-danger" style="max-width: 18rem;">
+        <div class="card-header" style="text-align:center;">
+            <h5 class="card-title">Medicos</h5>
+        </div>
+        <div style=" display: flex; align-items: center; ">
+            <div class="col-md-4" style=" text-align: center; width: 50%; height: 50%; ">
+                <img src="~/Images/doctor.png" class="img-fluid rounded-start" alt="..." style="width:65%">
+            </div>
+            <div class="col-md-8 card-body" style="text-align:center;width:100%;">
+                <p class="card-text" style="font-weight: 500;">Numero de Medicos registrados:<br /><strong>@ViewBag.medicos</strong></p>
+            </div>
+        </div>
     </div>
 </div>
+
+<canvas id="Grafico"></canvas>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Obtener los datos de la vista desde el controlador
+        var stockMedicamentos = @Html.Raw(Json.Encode(ViewBag.StockMedicamentos)); //se obtiene los datos desde el controlador y se almacenan
+        //el map es para extraer una propiedad en este caso nombre_medicamento y reserva
+        var labels = stockMedicamentos.map(function (item) {
+            return "" + item.Nombre_Medicamento + "";
+        }); //obtiene los nombre de los medicamentos
+
+        var restantes = stockMedicamentos.map(function (item) {
+            return item.Reservado;
+        }); // obtiene las cantidades reservadas
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                label: 'Reservados',
+                data: restantes,
+                backgroundColor: 'rgba(53 142 219, 1)',
+                borderColor: 'rgba(146, 196, 239, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        var ctx = document.getElementById('Grafico').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar', //grafico de barra
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 500 //Define que vaya en 500 en 500 en el eje y
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+

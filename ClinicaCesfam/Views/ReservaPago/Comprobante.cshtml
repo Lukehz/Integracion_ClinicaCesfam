@@ -1,34 +1,51 @@
 ﻿@{
     ViewBag.Title = "Comprobante";
 }
-<h2>@ViewBag.Title.</h2>
+<h1 style="text-align:center;font-family:Candara">Comprobante</h1>
 <h3>@ViewBag.Message</h3>
 <style>
     .table-container {
+        background-color: #e8f5e9;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        flex-wrap: nowrap;
+        justify-content: space-around;
     }
 
     table {
+        background-color: white;
         display: flex;
-        border-radius: 20px;
         margin: 10px;
         border-collapse: collapse;
         border-radius: 20px;
         border: 2px solid black;
-        overflow:hidden;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        text-align: center;
     }
 
     th, td {
+        background-color: white;
         border: 1px solid black;
         padding: 8px;
         border-radius: 20px;
     }
+
+    .imagenes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    img {
+        width: 60%;
+        filter: drop-shadow(0px 10px 5px rgba(0, 0, 0, 0.7));
+    }
 </style>
 <div class="jumbotron">
     <div class="table-container">
+        <div class="imagenes">
+            <img src="~/Images/pago_aprobado.png" />
+        </div>
         <table>
             <tr>
                 <th colspan="2">Comprobante</th>
@@ -90,6 +107,9 @@
                 <td>@ViewBag.Balance</td>
             </tr>
         </table>
+        <div class="imagenes">
+            <img src="~/Images/pago_aprobado.png" />
+        </div>
     </div>
 </div>
 
